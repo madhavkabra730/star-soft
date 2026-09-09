@@ -1,11 +1,15 @@
-import type { Config } from "jest";
-import nextJest from "next/jest.js";
+// Plain CommonJS (not .ts) on purpose: Jest can only load a TypeScript
+// config file via Node's native type-stripping (Node ≥ 22.6) or ts-node,
+// neither of which we want to require just to boot the test runner —
+// this needs to work on Node 20 too (the Docker image's runtime).
+const nextJest = require("next/jest.js");
 
 const createJestConfig = nextJest({
   dir: "./",
 });
 
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: {
@@ -16,4 +20,4 @@ const config: Config = {
 };
 
 // next/jest handles SWC transforms, CSS/SCSS module mocking, and env loading.
-export default createJestConfig(config);
+module.exports = createJestConfig(config);
