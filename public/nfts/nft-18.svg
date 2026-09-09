@@ -4,7 +4,15 @@
       <stop offset="0%" stop-color="#845EC2" />
       <stop offset="100%" stop-color="#D65DB1" />
     </linearGradient>
+    <filter id="glow-17" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="600" height="600" fill="url(#grad-17)" />
-  <polygon points="100.07576682563393,305.5046334702419 195.27073098906538,129.6128519739963 395.1949641634314,124.10821850375439 499.92423317436607,294.49536652975814 404.7292690109348,470.3871480260036 204.8050358365686,475.8917814962456" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" stroke-width="4" />
+  <g filter="url(#glow-17)" opacity="0.95">
+    <circle cx="300" cy="300" r="150" fill="none" stroke="url(#grad-17)" stroke-width="10" opacity="1" /><circle cx="300" cy="300" r="118" fill="none" stroke="url(#grad-17)" stroke-width="8.5" opacity="0.85" /><circle cx="300" cy="300" r="86" fill="none" stroke="url(#grad-17)" stroke-width="7" opacity="0.7" /><circle cx="300" cy="300" r="54" fill="none" stroke="url(#grad-17)" stroke-width="5.5" opacity="0.55" />
+  </g>
 </svg>

@@ -4,7 +4,19 @@
       <stop offset="0%" stop-color="#4E65FF" />
       <stop offset="100%" stop-color="#92EFFD" />
     </linearGradient>
+    <filter id="glow-8" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="600" height="600" fill="url(#grad-8)" />
-  <circle cx="300" cy="300" r="260" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="6" /><circle cx="300" cy="300" r="215" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="6" /><circle cx="300" cy="300" r="170" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="6" /><circle cx="300" cy="300" r="125" fill="none" stroke="rgba(255,255,255,0.30000000000000004)" stroke-width="6" /><circle cx="300" cy="300" r="80" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="6" />
+  <g filter="url(#glow-8)" opacity="0.95">
+    
+      <polygon points="408.6572575838665,403.4098659430196 264.773057883335,445.80487834468755 156.11580029946853,342.395012401668 191.34274241613355,196.5901340569804 335.22694211666493,154.19512165531245 443.8841997005315,257.6049875983321" fill="url(#grad-8)" />
+      <polygon points="408.6572575838665,403.4098659430196 264.773057883335,445.80487834468755 156.11580029946853,342.395012401668 191.34274241613355,196.5901340569804 335.22694211666493,154.19512165531245 443.8841997005315,257.6049875983321" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3" />
+      <circle cx="300" cy="300" r="52.5" fill="rgba(255,255,255,0.35)" />
+    
+  </g>
 </svg>

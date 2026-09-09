@@ -5,9 +5,11 @@
  * been permanently decommissioned (the Heroku host returns "No such app").
  * Rather than hot-linking to a third-party placeholder service — which would
  * make the app depend on network access and an origin we don't control — we
- * generate our own square, abstract gradient artwork at build time and serve
- * it from /public/nfts. This keeps next/image optimisation fully local and
- * the app fully functional offline.
+ * generate our own artwork at build time and serve it from /public/nfts.
+ *
+ * Style matches the Figma reference: a single vibrant, glowing abstract
+ * shape centered on a transparent background (the card itself supplies the
+ * dark backdrop), rather than a full-bleed colored square.
  *
  * Run with: `npm run generate:mocks`
  */
@@ -34,6 +36,7 @@ const PALETTES = [
 ];
 
 const SIZE = 600;
+const CENTER = SIZE / 2;
 
 function seededRandom(seed) {
   let value = seed;
@@ -43,72 +46,72 @@ function seededRandom(seed) {
   };
 }
 
-function shapeForIndex(index, rand) {
-  const cx = SIZE / 2;
-  const cy = SIZE / 2;
+/** A closed, organic blob path around (cx, cy) with the given base radius. */
+function blobPath(cx, cy, baseR, rand, points = 7) {
+  const coords = Array.from({ length: points }, (_, i) => {
+    const angle = (i / points) * Math.PI * 2;
+    const r = baseR + (rand() - 0.5) * baseR * 0.5;
+    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+  });
+  let d = `M ${coords[0][0]} ${coords[0][1]} `;
+  for (let i = 0; i < coords.length; i++) {
+    const [x1, y1] = coords[i];
+    const [x2, y2] = coords[(i + 1) % coords.length];
+    d += `Q ${x1} ${y1} ${(x1 + x2) / 2} ${(y1 + y2) / 2} `;
+  }
+  return d + "Z";
+}
+
+function shapeForIndex(index, rand, gradientId) {
   const variant = index % 4;
 
   if (variant === 0) {
-    // Concentric rings
-    const rings = Array.from({ length: 5 }, (_, i) => {
-      const r = 260 - i * 45;
-      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,${0.15 + i * 0.05})" stroke-width="6" />`;
-    }).join("");
-    return rings;
-  }
-
-  if (variant === 1) {
-    // Rotated polygon "gem"
+    // A faceted gem: rotated polygon with an inner highlight facet.
     const sides = 6;
-    const r = 200;
+    const r = 150;
     const rotation = rand() * Math.PI;
     const points = Array.from({ length: sides }, (_, i) => {
       const angle = rotation + (i / sides) * Math.PI * 2;
-      return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+      return `${CENTER + r * Math.cos(angle)},${CENTER + r * Math.sin(angle)}`;
     }).join(" ");
-    return `<polygon points="${points}" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" stroke-width="4" />`;
+    return `
+      <polygon points="${points}" fill="url(#${gradientId})" />
+      <polygon points="${points}" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3" />
+      <circle cx="${CENTER}" cy="${CENTER}" r="${r * 0.35}" fill="rgba(255,255,255,0.35)" />
+    `;
+  }
+
+  if (variant === 1) {
+    // Concentric glowing rings.
+    return Array.from({ length: 4 }, (_, i) => {
+      const r = 150 - i * 32;
+      return `<circle cx="${CENTER}" cy="${CENTER}" r="${r}" fill="none" stroke="url(#${gradientId})" stroke-width="${10 - i * 1.5}" opacity="${1 - i * 0.15}" />`;
+    }).join("");
   }
 
   if (variant === 2) {
-    // Organic blob made of a closed bezier path
-    const points = 6;
-    const baseR = 190;
-    const coords = Array.from({ length: points }, (_, i) => {
-      const angle = (i / points) * Math.PI * 2;
-      const r = baseR + (rand() - 0.5) * 80;
-      return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
-    });
-    let d = `M ${coords[0][0]} ${coords[0][1]} `;
-    for (let i = 0; i < coords.length; i++) {
-      const [x1, y1] = coords[i];
-      const [x2, y2] = coords[(i + 1) % coords.length];
-      const mx = (x1 + x2) / 2;
-      const my = (y1 + y2) / 2;
-      d += `Q ${x1} ${y1} ${mx} ${my} `;
-    }
-    d += "Z";
-    return `<path d="${d}" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.35)" stroke-width="4" />`;
+    // A soft organic blob (potion / orb-like).
+    return `<path d="${blobPath(CENTER, CENTER, 140, rand)}" fill="url(#${gradientId})" />`;
   }
 
-  // Scatter of small squares (pixel-art nod)
-  const cells = 8;
-  const cellSize = 34;
-  let squares = "";
-  for (let i = 0; i < 26; i++) {
-    const gx = Math.floor(rand() * cells);
-    const gy = Math.floor(rand() * cells);
-    const x = cx - (cells * cellSize) / 2 + gx * cellSize;
-    const y = cy - (cells * cellSize) / 2 + gy * cellSize;
-    const opacity = (0.1 + rand() * 0.3).toFixed(2);
-    squares += `<rect x="${x}" y="${y}" width="${cellSize - 4}" height="${cellSize - 4}" rx="4" fill="rgba(255,255,255,${opacity})" />`;
-  }
-  return squares;
+  // A star/sparkle burst.
+  const spikes = 5;
+  const outerR = 160;
+  const innerR = 70;
+  const rotation = rand() * Math.PI;
+  const points = Array.from({ length: spikes * 2 }, (_, i) => {
+    const r = i % 2 === 0 ? outerR : innerR;
+    const angle = rotation + (i / (spikes * 2)) * Math.PI * 2;
+    return `${CENTER + r * Math.cos(angle)},${CENTER + r * Math.sin(angle)}`;
+  }).join(" ");
+  return `<polygon points="${points}" fill="url(#${gradientId})" />`;
 }
 
 function buildSvg(index) {
   const [from, to] = PALETTES[index % PALETTES.length];
   const rand = seededRandom(index * 97 + 13);
   const gradientId = `grad-${index}`;
+  const glowId = `glow-${index}`;
   const angle = Math.floor(rand() * 360);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}" width="${SIZE}" height="${SIZE}">
@@ -117,9 +120,17 @@ function buildSvg(index) {
       <stop offset="0%" stop-color="${from}" />
       <stop offset="100%" stop-color="${to}" />
     </linearGradient>
+    <filter id="${glowId}" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="${SIZE}" height="${SIZE}" fill="url(#${gradientId})" />
-  ${shapeForIndex(index, rand)}
+  <g filter="url(#${glowId})" opacity="0.95">
+    ${shapeForIndex(index, rand, gradientId)}
+  </g>
 </svg>`;
 }
 

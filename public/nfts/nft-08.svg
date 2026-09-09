@@ -4,7 +4,15 @@
       <stop offset="0%" stop-color="#FF9A8B" />
       <stop offset="100%" stop-color="#FF6A88" />
     </linearGradient>
+    <filter id="glow-7" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="600" height="600" fill="url(#grad-7)" />
-  <rect x="198" y="164" width="30" height="30" rx="4" fill="rgba(255,255,255,0.26)" /><rect x="300" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.25)" /><rect x="266" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.12)" /><rect x="164" y="232" width="30" height="30" rx="4" fill="rgba(255,255,255,0.32)" /><rect x="368" y="402" width="30" height="30" rx="4" fill="rgba(255,255,255,0.35)" /><rect x="198" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.35)" /><rect x="334" y="334" width="30" height="30" rx="4" fill="rgba(255,255,255,0.14)" /><rect x="300" y="334" width="30" height="30" rx="4" fill="rgba(255,255,255,0.15)" /><rect x="232" y="232" width="30" height="30" rx="4" fill="rgba(255,255,255,0.20)" /><rect x="232" y="198" width="30" height="30" rx="4" fill="rgba(255,255,255,0.11)" /><rect x="402" y="266" width="30" height="30" rx="4" fill="rgba(255,255,255,0.32)" /><rect x="368" y="300" width="30" height="30" rx="4" fill="rgba(255,255,255,0.34)" /><rect x="164" y="198" width="30" height="30" rx="4" fill="rgba(255,255,255,0.30)" /><rect x="232" y="266" width="30" height="30" rx="4" fill="rgba(255,255,255,0.33)" /><rect x="402" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.25)" /><rect x="266" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.18)" /><rect x="402" y="368" width="30" height="30" rx="4" fill="rgba(255,255,255,0.26)" /><rect x="198" y="232" width="30" height="30" rx="4" fill="rgba(255,255,255,0.30)" /><rect x="266" y="300" width="30" height="30" rx="4" fill="rgba(255,255,255,0.13)" /><rect x="164" y="164" width="30" height="30" rx="4" fill="rgba(255,255,255,0.18)" /><rect x="334" y="198" width="30" height="30" rx="4" fill="rgba(255,255,255,0.27)" /><rect x="266" y="266" width="30" height="30" rx="4" fill="rgba(255,255,255,0.23)" /><rect x="402" y="198" width="30" height="30" rx="4" fill="rgba(255,255,255,0.17)" /><rect x="300" y="402" width="30" height="30" rx="4" fill="rgba(255,255,255,0.24)" /><rect x="334" y="402" width="30" height="30" rx="4" fill="rgba(255,255,255,0.24)" /><rect x="368" y="334" width="30" height="30" rx="4" fill="rgba(255,255,255,0.31)" />
+  <g filter="url(#glow-7)" opacity="0.95">
+    <polygon points="440.47686348624006,376.5914539950005 330.0251187105446,363.2336322412188 270.566936719272,457.2694973156354 249.139513947661,348.0958517807911 141.33250301324355,320.6064407396725 238.54137222477,266.49123887718724 231.37115723304103,155.4659834486427 312.8769651853185,231.1945949244095 416.2525395482034,190.0666245010488 369.41702993170594,290.9846821763933" fill="url(#grad-7)" />
+  </g>
 </svg>

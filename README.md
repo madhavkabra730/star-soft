@@ -1,4 +1,4 @@
-# NFTarket — NFT Marketplace (Starsoft Frontend Challenge)
+# Starsoft — NFT Marketplace (Frontend Challenge)
 
 An NFT marketplace interface with shopping-cart functionality, built for the
 [Starsoft Frontend Developer challenge](https://github.com/star-soft/starsoft-frontend-challenge)
@@ -79,19 +79,33 @@ now-offline challenge, to stay faithful to the original contract.)
 
 ## Design
 
-The Figma file linked in the challenge requires interactive/authenticated
-access that isn't fetchable headlessly. The UI was built from:
+The Figma file itself requires interactive/authenticated access that isn't
+fetchable headlessly, so the UI was built from reference screenshots of its
+design-system panel and the shop/cart screens, plus the button-label glossary
+from the brief. All tokens live in `src/styles/_variables.scss`.
 
-1. The button-label glossary given in the brief (COMPRAR / ADICIONADO AO
-   CARRINHO / FINALIZAR COMPRA / COMPRA FINALIZADA! / Carregar mais / Você já
-   viu tudo) — implemented literally as the interaction states described.
-2. Design tokens (colors, spacing, breakpoints, card sizing) cross-checked
-   against a completed public solution of this same challenge, to stay
-   reasonably close to the intended dark, orange-accented look.
+**Palette** (exact hex values from Figma's "paleta" swatch):
 
-If exact Figma screenshots are available, `src/styles/_variables.scss` is the
-single place to retune colors/spacing/type, and the component-level SCSS
-Modules make layout tweaks isolated and low-risk.
+| Swatch | Hex       | Used for                                                   |
+| ------ | --------- | ---------------------------------------------------------- |
+| 🟧     | `#FF8310` | Primary accent — active buy/checkout CTAs                  |
+| ⬛     | `#232323` | Card / panel surface                                       |
+| ⬛     | `#191A20` | Page background, inset image panels                        |
+| ⬛     | `#393939` | Neutral controls (default buy button, load-more, steppers) |
+| ⬜     | `#CCCCCC` | Muted text                                                 |
+| ⬜     | `#FFFFFF` | Primary text                                               |
+
+Font: **Poppins**. Border-radius: **8px**, applied uniformly to cards,
+buttons, and panels.
+
+Two behaviors came directly from Figma's `buy-bt` / `load-bt` component
+swatches rather than being guessed: the buy button defaults to **gray**
+("Comprar") and only turns **orange** once added ("Adicionado ao carrinho")
+— the reverse of the more common orange-primary-CTA pattern — and the
+load-more button carries a thin progress bar above it, filled by how much of
+the catalogue has loaded so far. The cart drawer is titled "Mochila de
+Compras" (not a generic "Carrinho") and each row includes a quantity
+stepper, per the reference screenshots.
 
 ## Features implemented
 
@@ -101,10 +115,11 @@ Modules make layout tweaks isolated and low-risk.
 - **NFT detail page** (`/nft/[id]`) — statically generated for every NFT at
   build time (`generateStaticParams`), with per-page metadata (`generateMetadata`)
   for SEO/Open Graph.
-- **Cart** — Redux Toolkit slice (`src/features/cart`): add/remove items,
-  checkout flow (Finalizar compra → Compra finalizada! → auto-clears), and
-  client-side persistence to `localStorage` (hydrated post-mount to avoid SSR
-  hydration mismatches).
+- **Cart** ("Mochila de Compras") — Redux Toolkit slice (`src/features/cart`):
+  add items, a per-row quantity stepper (increment/decrement, removing the
+  item below quantity 1), checkout flow (Finalizar compra → Compra
+  finalizada! → auto-clears), and client-side persistence to `localStorage`
+  (hydrated post-mount to avoid SSR hydration mismatches).
 - **Cart drawer** — Framer Motion slide-over, code-split via `next/dynamic`
   (`ssr: false`) since it's only needed after a user interaction.
 - **Loading / success / error states** — skeleton grid while the first page
@@ -152,19 +167,19 @@ scripts/                # generate-nft-art.mjs — placeholder artwork generator
 npm test
 ```
 
-26 tests across the cart reducer/selectors, the mock data-access layer
-(`getProductsPage` / `getProductById`), and user-facing component behaviour
-(buy button state, load-more button's three states, cart badge count).
+37 tests across the cart reducer/selectors (including the quantity stepper),
+the mock data-access layer (`getProductsPage` / `getProductById`), and
+user-facing component behaviour (buy button state, load-more's three states
+and progress bar, cart quantity/checkout flow, cart badge count).
 
 ## Known limitations & possible future improvements
 
 - **No real backend.** The original API is gone; see "Why a mock API" above.
   Swapping in a real one is a one-line env var change.
-- **Design fidelity is approximate**, not pixel-verified against Figma (see
-  "Design" above) — token-driven styling makes closing that gap
-  straightforward once exact specs are available.
-- **No quantity per NFT.** Since NFTs are unique, each is added to the cart
-  at most once — there's no quantity selector by design.
+- **Design fidelity covers the screens referenced** (shop grid, NFT card,
+  cart drawer, and the finish-bt/buy-bt/load-bt component states) — pages
+  outside that reference (if any exist in the full Figma file) weren't
+  visually verified.
 - **No persisted "purchase history."** Checkout resets the cart; a real
   backend would record orders server-side.
 - **No i18n layer.** UI copy follows the brief's Portuguese button labels
