@@ -19,18 +19,7 @@
 .logo {
   display: flex;
   align-items: center;
-  font-size: v.$fs-lg;
-  font-weight: v.$fw-semibold;
-  font-style: italic;
-  letter-spacing: -0.02em;
-}
-
-.logoStar {
-  color: v.$color-primary;
-}
-
-.logoSoft {
-  color: v.$color-white;
+  @include m.focus-ring;
 }
 
 .cartButton {

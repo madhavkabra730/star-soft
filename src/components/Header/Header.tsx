@@ -22,8 +22,7 @@ export function Header() {
       <header className={styles.header}>
         <div className={styles.content}>
           <Link href="/" className={styles.logo} aria-label="Página inicial">
-            <span className={styles.logoStar}>star</span>
-            <span className={styles.logoSoft}>soft</span>
+            <Image src="/icons/starsoft_logo.png" alt="" width={101} height={38} priority />
           </Link>
 
           <button

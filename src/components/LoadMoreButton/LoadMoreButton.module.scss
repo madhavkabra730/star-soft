@@ -26,4 +26,7 @@
 
 .loadMore {
   width: 100%;
+  // Figma's load-bt keeps sentence case, unlike buy-bt/finish-bt's all-caps.
+  text-transform: none;
+  letter-spacing: normal;
 }
