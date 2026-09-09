@@ -8,13 +8,9 @@ services:
     environment:
       NODE_ENV: development
       NEXT_TELEMETRY_DISABLED: "1"
-      # Override the products API base URL (see README → "Data fetching").
-      # Defaults to the live Starsoft/MKS challenge API when unset.
       # NEXT_PUBLIC_API_BASE_URL: https://your-api.example.com/v1
     volumes:
       - .:/app
-      # Anonymous volumes so the container's own (Linux) node_modules and
-      # .next build output aren't shadowed by the host bind mount above.
       - /app/node_modules
       - /app/.next
     stdin_open: true

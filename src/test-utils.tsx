@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { makeStore, type AppStore } from "@/lib/store";
 
-/** Wraps components under test with the same Redux + React Query providers used in the app. */
 function AllProviders({ children, store }: { children: ReactNode; store: AppStore }) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },

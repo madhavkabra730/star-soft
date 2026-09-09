@@ -13,7 +13,6 @@ import styles from "./ProductCard.module.scss";
 
 interface ProductCardProps {
   product: Product;
-  /** Disables the entrance animation — used when cards are appended via "load more" to avoid re-animating the whole grid. */
   priority?: boolean;
 }
 

@@ -10,7 +10,6 @@ interface NftPageProps {
   params: Promise<{ id: string }>;
 }
 
-// Pre-render every known NFT at build time (SSG).
 export async function generateStaticParams() {
   const products = await ProductsService.getAllProducts();
   return products.map((product) => ({ id: String(product.id) }));

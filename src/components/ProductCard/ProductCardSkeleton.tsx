@@ -1,6 +1,5 @@
 import styles from "./ProductCardSkeleton.module.scss";
 
-/** Loading placeholder matching ProductCard's dimensions, shown while React Query fetches a page. */
 export function ProductCardSkeleton() {
   return (
     <div className={styles.card} aria-hidden>

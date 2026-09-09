@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
-/** Re-mounts on every navigation (unlike layout.tsx) — drives the page transition. */
 export default function Template({ children }: { children: ReactNode }) {
   return (
     <motion.div

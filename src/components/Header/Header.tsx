@@ -8,7 +8,6 @@ import { useAppSelector } from "@/lib/hooks";
 import { selectCartCount } from "@/features/cart/cartSlice";
 import styles from "./Header.module.scss";
 
-// Code-split: only needed once the user opens the cart.
 const CartDrawer = dynamic(() => import("@/components/CartDrawer/CartDrawer").then((mod) => mod.CartDrawer), {
   ssr: false,
 });

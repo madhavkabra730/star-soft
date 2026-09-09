@@ -27,7 +27,6 @@ interface CartDrawerProps {
 
 const CHECKOUT_RESET_DELAY_MS = 2200;
 
-/** Cart modal: lists items, totals them in ETH, and drives the finish-bt purchase flow. */
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
@@ -46,7 +45,6 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     showToast("Compra finalizada!");
   };
 
-  // After showing "COMPRA FINALIZADA!", clear the cart and close the drawer.
   useEffect(() => {
     if (status !== "completed") return;
     const timer = setTimeout(() => {

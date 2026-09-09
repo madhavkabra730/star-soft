@@ -5,11 +5,9 @@ interface LoadMoreButtonProps {
   onClick: () => void;
   isLoading: boolean;
   hasMore: boolean;
-  /** Fraction of pages loaded so far (0–1), drawn as the thin progress bar above the button (matches Figma's load-bt). */
   progress: number;
 }
 
-/** The "load-bt": Carregar mais -> loading -> Você já viu tudo (disabled) once every page has been fetched. */
 export function LoadMoreButton({ onClick, isLoading, hasMore, progress }: LoadMoreButtonProps) {
   const fill = Math.min(1, Math.max(0, progress));
 

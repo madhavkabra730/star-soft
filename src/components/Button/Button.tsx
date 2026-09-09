@@ -9,7 +9,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-/** Shared button primitive covering the buy / checkout / load-more button states used across the app. */
 export function Button({
   variant = "primary",
   fullWidth = false,

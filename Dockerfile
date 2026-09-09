@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 #############################################
-# deps — install dependencies (cached layer)
+# deps
 #############################################
 FROM node:22-alpine AS deps
 WORKDIR /app
@@ -9,8 +9,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 #############################################
-# dev — hot-reloading development server
-# Used by docker-compose.yml (source is bind-mounted, see there).
+# dev
 #############################################
 FROM node:22-alpine AS dev
 WORKDIR /app
@@ -20,7 +19,7 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 #############################################
-# builder — production build
+# builder
 #############################################
 FROM node:22-alpine AS builder
 WORKDIR /app
@@ -30,8 +29,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 #############################################
-# runner — minimal production image
-# Only the files next.config's `output: "standalone"` traced as needed.
+# runner
 #############################################
 FROM node:22-alpine AS runner
 WORKDIR /app

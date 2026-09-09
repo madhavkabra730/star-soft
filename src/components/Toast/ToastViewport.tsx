@@ -40,9 +40,8 @@ function ToastCard({ id, message, variant }: ToastItem) {
   );
 }
 
-/** Global stack of ephemeral action confirmations (add/remove from cart, etc.), mounted once in Providers. */
 export function ToastViewport() {
-  const toasts = useAppSelector(selectToasts);
+  const toasts = useAppSelector(selectToasts) ?? [];
 
   return (
     <ul className={styles.viewport} aria-live="polite">

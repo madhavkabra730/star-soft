@@ -11,11 +11,9 @@ import type { Product } from "@/types/product";
 import styles from "./BuySection.module.scss";
 
 interface BuySectionProps {
-  /** Server-rendered product, used to seed React Query so there's no client refetch/flash. */
   product: Product;
 }
 
-/** Interactive price + buy button on the NFT detail page; reads/writes cart state via Redux. */
 export function BuySection({ product: initialProduct }: BuySectionProps) {
   const { data: product } = useProduct(initialProduct.id, { initialData: initialProduct });
   const dispatch = useAppDispatch();

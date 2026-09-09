@@ -9,7 +9,6 @@ interface UseProductsOptions {
   limit?: number;
 }
 
-/** Infinite-scroll pagination for the NFT grid, seeded from the server-rendered first page. */
 export function useProducts({ initialData, limit = DEFAULT_PAGE_SIZE }: UseProductsOptions = {}) {
   return useInfiniteQuery({
     queryKey: ["products", { limit }],

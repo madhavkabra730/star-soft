@@ -1,4 +1,3 @@
-/** Normalized product shape used across the app — see src/lib/api.ts for how it's derived from the raw API response. */
 export interface Product {
   id: number;
   name: string;

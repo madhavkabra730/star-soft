@@ -1,12 +1,10 @@
 import type { PaginatedResponse, Product } from "@/types/product";
 
-/** Base URL for the Starsoft/MKS challenge API (docs: api-challenge.starsoft.games/api-docs). */
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api-challenge.starsoft.games/api/v1";
 
 export const DEFAULT_PAGE_SIZE = 8;
 
-/** The API rejects `rows` outside this range ("rows must be <= 50" / ">= 5"). */
 const MAX_ROWS = 50;
 const MIN_ROWS = 5;
 
@@ -23,7 +21,6 @@ export class ApiError extends Error {
   }
 }
 
-/** Raw shape actually returned by `GET /products` — `price` comes back as a decimal string. */
 interface RawProduct {
   id: number;
   name: string;
@@ -91,7 +88,6 @@ export interface GetProductsParams {
 }
 
 export const ProductsService = {
-  /** Paginated product list, normalized to `{ data, metadata }` for the grid and `useInfiniteQuery`. */
   async getProducts({
     page = 1,
     limit = DEFAULT_PAGE_SIZE,
@@ -110,13 +106,11 @@ export const ProductsService = {
     };
   },
 
-  /** There's no GET /products/:id, so this walks every page and returns the full catalogue. */
   async getAllProducts(): Promise<Product[]> {
     const first = await fetchProductsPage({ page: 1, rows: MAX_ROWS });
     const all = [...first.products];
     const pageCount = Math.ceil(first.count / MAX_ROWS);
 
-    // Sequential by design: this is a small, build-time-only catalogue walk.
     for (let page = 2; page <= pageCount; page += 1) {
       const next = await fetchProductsPage({ page, rows: MAX_ROWS });
       all.push(...next.products);
@@ -125,7 +119,6 @@ export const ProductsService = {
     return all.map(normalizeProduct);
   },
 
-  /** Looks up a single NFT by id. Throws `ApiError(404)` if none matches. */
   async getProductById(id: number): Promise<Product> {
     const products = await this.getAllProducts();
     const product = products.find((item) => item.id === id);

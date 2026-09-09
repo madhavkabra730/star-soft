@@ -1,6 +1,5 @@
 import { ApiError, ProductsService } from "./api";
 
-/** Builds a `Response`-like object as returned by the real `GET /products` endpoint. */
 function jsonResponse(body: unknown, status = 200): Response {
   return {
     ok: status >= 200 && status < 300,

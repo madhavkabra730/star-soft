@@ -11,7 +11,6 @@ import { ToastViewport } from "@/components/Toast/ToastViewport";
 
 const CART_STORAGE_KEY = "starsoft-nft-cart";
 
-/** Restores the cart from localStorage on mount and persists it on every change after. */
 function CartPersistenceGate({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
@@ -26,7 +25,6 @@ function CartPersistenceGate({ children }: { children: ReactNode }) {
       restored = [];
     }
     dispatch(hydrateCart(restored));
-    // Runs once on mount only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -34,9 +32,7 @@ function CartPersistenceGate({ children }: { children: ReactNode }) {
     if (!hydrated) return;
     try {
       window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-    } catch {
-      // localStorage may be unavailable (private mode, quota) — cart still works in-memory.
-    }
+    } catch {}
   }, [items, hydrated]);
 
   return children;

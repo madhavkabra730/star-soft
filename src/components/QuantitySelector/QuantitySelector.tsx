@@ -7,7 +7,6 @@ interface QuantitySelectorProps {
   onDecrement: () => void;
 }
 
-/** The "− qty +" stepper on each cart row (Figma's Mochila de Compras). */
 export function QuantitySelector({ quantity, itemName, onIncrement, onDecrement }: QuantitySelectorProps) {
   return (
     <div className={styles.stepper} role="group" aria-label={`Quantidade de ${itemName}`}>

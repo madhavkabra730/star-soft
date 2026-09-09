@@ -16,7 +16,6 @@ const product: Product = {
   createdAt: "2025-01-01T00:00:00.000Z",
 };
 
-/** Reads/writes cart state through the same Redux context Providers sets up, to exercise the localStorage gate. */
 function CartProbe() {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);

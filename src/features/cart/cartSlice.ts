@@ -16,7 +16,6 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
   status: CheckoutStatus;
-  /** True once client-side localStorage hydration has run (avoids SSR mismatch). */
   hydrated: boolean;
 }
 
@@ -41,7 +40,6 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    /** Adds an NFT to the cart at quantity 1. Bumping quantity is handled by incrementQuantity, from the cart drawer's stepper. */
     addToCart: (state, action: PayloadAction<Product>) => {
       const alreadyInCart = state.items.some((item) => item.id === action.payload.id);
       if (!alreadyInCart) {
@@ -51,12 +49,10 @@ const cartSlice = createSlice({
     removeFromCart: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
-    /** Cart drawer's "+" stepper. */
     incrementQuantity: (state, action: PayloadAction<number>) => {
       const item = state.items.find((entry) => entry.id === action.payload);
       if (item) item.quantity += 1;
     },
-    /** Cart drawer's "−" stepper. Removes the item once quantity would drop to 0. */
     decrementQuantity: (state, action: PayloadAction<number>) => {
       const item = state.items.find((entry) => entry.id === action.payload);
       if (!item) return;
@@ -66,18 +62,15 @@ const cartSlice = createSlice({
         item.quantity -= 1;
       }
     },
-    /** Marks the cart as checked out ("COMPRA FINALIZADA!"); items stay visible until resetCart runs. */
     checkout: (state) => {
       if (state.items.length > 0) {
         state.status = "completed";
       }
     },
-    /** Clears the cart and returns to idle, ready for a new purchase cycle. */
     resetCart: (state) => {
       state.items = [];
       state.status = "idle";
     },
-    /** Replaces cart contents with data restored from localStorage on mount. */
     hydrateCart: (state, action: PayloadAction<CartItem[]>) => {
       state.items = action.payload;
       state.hydrated = true;
