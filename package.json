@@ -11,8 +11,7 @@
     "format:check": "prettier --check .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "generate:mocks": "node scripts/generate-nft-art.mjs"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",

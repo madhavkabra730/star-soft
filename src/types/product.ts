@@ -1,11 +1,4 @@
-/**
- * Domain types for the NFT marketplace.
- *
- * Shaped to mirror the (now offline) Starsoft Challenge API contract
- * (`GET /v1/products?page&limit` -> `{ data, metadata }`), so swapping the
- * mock service in `src/lib/api.ts` for a real fetch call is a drop-in change.
- */
-
+/** Normalized product shape used across the app — see src/lib/api.ts for how it's derived from the raw API response. */
 export interface Product {
   id: number;
   name: string;
@@ -13,8 +6,6 @@ export interface Product {
   image: string;
   price: number;
   createdAt: string;
-  cryptoSymbol: string;
-  cryptoIconPath: string;
 }
 
 export interface PaginationMetadata {

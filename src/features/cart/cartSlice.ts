@@ -10,8 +10,6 @@ export interface CartItem {
   description: string;
   price: number;
   image: string;
-  cryptoSymbol: string;
-  cryptoIconPath: string;
   quantity: number;
 }
 
@@ -35,8 +33,6 @@ function toCartItem(product: Product): CartItem {
     description: product.description,
     price: product.price,
     image: product.image,
-    cryptoSymbol: product.cryptoSymbol,
-    cryptoIconPath: product.cryptoIconPath,
     quantity: 1,
   };
 }

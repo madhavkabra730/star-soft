@@ -22,8 +22,6 @@ const product: Product = {
   image: "/nfts/nft-01.svg",
   price: 1.5,
   createdAt: "2025-01-01T00:00:00.000Z",
-  cryptoSymbol: "ETH",
-  cryptoIconPath: "/icons/eth.svg",
 };
 
 const cartItem: CartItem = {
@@ -32,8 +30,6 @@ const cartItem: CartItem = {
   description: "A rare piece.",
   price: 1.5,
   image: "/nfts/nft-01.svg",
-  cryptoSymbol: "ETH",
-  cryptoIconPath: "/icons/eth.svg",
   quantity: 1,
 };
 
@@ -82,6 +78,12 @@ describe("cartSlice", () => {
     it("is a no-op for an id that isn't in the cart", () => {
       const before = makeState({ items: [{ ...cartItem }] });
       const state = cartReducer(before, incrementQuantity(999));
+      expect(state.items).toEqual(before.items);
+    });
+
+    it("decrementQuantity is a no-op for an id that isn't in the cart", () => {
+      const before = makeState({ items: [{ ...cartItem }] });
+      const state = cartReducer(before, decrementQuantity(999));
       expect(state.items).toEqual(before.items);
     });
   });

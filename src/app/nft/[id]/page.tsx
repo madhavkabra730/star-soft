@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllProductIds, getProductById } from "@/lib/products";
+import { ProductsService } from "@/lib/api";
 import { BuySection } from "./BuySection";
 import styles from "./page.module.scss";
 
@@ -12,12 +12,13 @@ interface NftPageProps {
 
 // Pre-render every known NFT at build time (SSG).
 export async function generateStaticParams() {
-  return getAllProductIds().map((id) => ({ id: String(id) }));
+  const products = await ProductsService.getAllProducts();
+  return products.map((product) => ({ id: String(product.id) }));
 }
 
 export async function generateMetadata({ params }: NftPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = getProductById(Number(id));
+  const product = await ProductsService.getProductById(Number(id)).catch(() => undefined);
 
   if (!product) return { title: "NFT não encontrado" };
 
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: NftPageProps): Promise<Metada
 
 export default async function NftDetailPage({ params }: NftPageProps) {
   const { id } = await params;
-  const product = getProductById(Number(id));
+  const product = await ProductsService.getProductById(Number(id)).catch(() => undefined);
 
   if (!product) {
     notFound();

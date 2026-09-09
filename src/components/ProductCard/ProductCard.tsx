@@ -52,11 +52,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         <p className={styles.description}>{product.description}</p>
 
         <div className={styles.footer}>
-          <PriceTag
-            price={product.price}
-            cryptoSymbol={product.cryptoSymbol}
-            cryptoIconPath={product.cryptoIconPath}
-          />
+          <PriceTag price={product.price} />
 
           <motion.div whileTap={{ scale: 0.97 }} className={styles.buyButtonWrap}>
             <Button

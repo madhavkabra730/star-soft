@@ -12,14 +12,32 @@ const product: Product = {
   image: "/nfts/nft-01.svg",
   price: 1.5,
   createdAt: "2025-01-01T00:00:00.000Z",
-  cryptoSymbol: "ETH",
-  cryptoIconPath: "/icons/eth.svg",
 };
 
 describe("CartDrawer", () => {
   it("shows an empty state when the cart has no items", () => {
     renderWithProviders(<CartDrawer isOpen onClose={jest.fn()} />);
     expect(screen.getByText("Seu carrinho está vazio.")).toBeInTheDocument();
+  });
+
+  it("closes when the Escape key is pressed", async () => {
+    const user = userEvent.setup();
+    const onClose = jest.fn();
+    renderWithProviders(<CartDrawer isOpen onClose={onClose} />);
+
+    await user.keyboard("{Escape}");
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not listen for Escape while closed", async () => {
+    const user = userEvent.setup();
+    const onClose = jest.fn();
+    renderWithProviders(<CartDrawer isOpen={false} onClose={onClose} />);
+
+    await user.keyboard("{Escape}");
+
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it("lists items and enables the checkout button once something is in the cart", () => {

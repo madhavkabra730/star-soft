@@ -14,12 +14,7 @@ interface BuySectionProps {
   product: Product;
 }
 
-/**
- * Client island for the interactive part of the NFT detail page (price +
- * buy button). Wraps the SSR-fetched product in React Query via
- * `initialData` to demonstrate cache synchronisation without a loading
- * flash, and reads/writes cart state through Redux.
- */
+/** Interactive price + buy button on the NFT detail page; reads/writes cart state via Redux. */
 export function BuySection({ product: initialProduct }: BuySectionProps) {
   const { data: product } = useProduct(initialProduct.id, { initialData: initialProduct });
   const dispatch = useAppDispatch();
@@ -27,12 +22,7 @@ export function BuySection({ product: initialProduct }: BuySectionProps) {
 
   return (
     <div className={styles.buySection}>
-      <PriceTag
-        price={product.price}
-        cryptoSymbol={product.cryptoSymbol}
-        cryptoIconPath={product.cryptoIconPath}
-        size="lg"
-      />
+      <PriceTag price={product.price} size="lg" />
 
       <motion.div whileTap={{ scale: 0.97 }}>
         <Button

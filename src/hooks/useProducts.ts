@@ -9,13 +9,7 @@ interface UseProductsOptions {
   limit?: number;
 }
 
-/**
- * Infinite-scroll-style pagination for the NFT grid, driving the
- * "Carregar mais" / "Você já viu tudo" load-more button.
- *
- * Seeded with `initialData` from the server-rendered first page so there's
- * no loading flash for the content that was already sent as HTML.
- */
+/** Infinite-scroll pagination for the NFT grid, seeded from the server-rendered first page. */
 export function useProducts({ initialData, limit = DEFAULT_PAGE_SIZE }: UseProductsOptions = {}) {
   return useInfiniteQuery({
     queryKey: ["products", { limit }],

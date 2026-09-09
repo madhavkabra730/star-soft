@@ -1,20 +1,17 @@
 import type { PaginatedResponse, Product } from "@/types/product";
 
-/**
- * Base URL for the products API.
- *
- * The original Starsoft Challenge API (documented at
- * https://starsoft-challenge-7dfd4a56a575.herokuapp.com/v1/docs) has been
- * permanently taken down — the Heroku host returns "No such app". To keep
- * the app fully functional (and demonstrate the intended React Query /
- * SSR integration) this defaults to our own Next.js Route Handlers, which
- * serve local seed data in the exact same shape. Point
- * NEXT_PUBLIC_API_BASE_URL at a real backend to switch over with no other
- * code changes.
- */
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
+/** Base URL for the Starsoft/MKS challenge API (docs: api-challenge.starsoft.games/api-docs). */
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api-challenge.starsoft.games/api/v1";
 
 export const DEFAULT_PAGE_SIZE = 8;
+
+/** The API rejects `rows` outside this range ("rows must be <= 50" / ">= 5"). */
+const MAX_ROWS = 50;
+const MIN_ROWS = 5;
+
+export type SortableField = "id" | "name" | "price";
+export type SortOrder = "ASC" | "DESC";
 
 export class ApiError extends Error {
   status: number;
@@ -26,6 +23,32 @@ export class ApiError extends Error {
   }
 }
 
+/** Raw shape actually returned by `GET /products` — `price` comes back as a decimal string. */
+interface RawProduct {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  price: string;
+  createdAt: string;
+}
+
+interface RawProductsResponse {
+  products: RawProduct[];
+  count: number;
+}
+
+function normalizeProduct(raw: RawProduct): Product {
+  return {
+    id: raw.id,
+    name: raw.name,
+    description: raw.description,
+    image: raw.image,
+    price: Number(raw.price),
+    createdAt: raw.createdAt,
+  };
+}
+
 async function parseOrThrow<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new ApiError(`Request failed with status ${response.status}`, response.status);
@@ -33,30 +56,82 @@ async function parseOrThrow<T>(response: Response): Promise<T> {
   return (await response.json()) as T;
 }
 
+interface FetchPageParams {
+  page: number;
+  rows: number;
+  sortBy?: SortableField;
+  orderBy?: SortOrder;
+}
+
+async function fetchProductsPage({
+  page,
+  rows,
+  sortBy = "id",
+  orderBy = "ASC",
+}: FetchPageParams): Promise<RawProductsResponse> {
+  const clampedRows = Math.min(MAX_ROWS, Math.max(MIN_ROWS, rows));
+  const params = new URLSearchParams({
+    page: String(page),
+    rows: String(clampedRows),
+    sortBy,
+    orderBy,
+  });
+
+  const response = await fetch(`${API_BASE_URL}/products?${params.toString()}`, {
+    next: { revalidate: 60 },
+  });
+  return parseOrThrow<RawProductsResponse>(response);
+}
+
 export interface GetProductsParams {
   page?: number;
   limit?: number;
-  /** Absolute base URL to prefix relative API paths — required for server-side fetches. */
-  baseUrl?: string;
+  sortBy?: SortableField;
+  orderBy?: SortOrder;
 }
 
 export const ProductsService = {
-  async getProducts({ page = 1, limit = DEFAULT_PAGE_SIZE, baseUrl }: GetProductsParams = {}): Promise<
-    PaginatedResponse<Product>
-  > {
-    const base = baseUrl ?? API_BASE_URL;
-    const url = `${base}/products?page=${page}&limit=${limit}`;
-    const response = await fetch(url, {
-      next: { revalidate: 60 },
-    });
-    return parseOrThrow<PaginatedResponse<Product>>(response);
+  /** Paginated product list, normalized to `{ data, metadata }` for the grid and `useInfiniteQuery`. */
+  async getProducts({
+    page = 1,
+    limit = DEFAULT_PAGE_SIZE,
+    sortBy,
+    orderBy,
+  }: GetProductsParams = {}): Promise<PaginatedResponse<Product>> {
+    const raw = await fetchProductsPage({ page, rows: limit, sortBy, orderBy });
+    return {
+      data: raw.products.map(normalizeProduct),
+      metadata: {
+        page,
+        limit,
+        totalCount: raw.count,
+        pageCount: Math.max(1, Math.ceil(raw.count / limit)),
+      },
+    };
   },
 
-  async getProductById(id: number, baseUrl?: string): Promise<Product> {
-    const base = baseUrl ?? API_BASE_URL;
-    const response = await fetch(`${base}/products/${id}`, {
-      next: { revalidate: 60 },
-    });
-    return parseOrThrow<Product>(response);
+  /** There's no GET /products/:id, so this walks every page and returns the full catalogue. */
+  async getAllProducts(): Promise<Product[]> {
+    const first = await fetchProductsPage({ page: 1, rows: MAX_ROWS });
+    const all = [...first.products];
+    const pageCount = Math.ceil(first.count / MAX_ROWS);
+
+    // Sequential by design: this is a small, build-time-only catalogue walk.
+    for (let page = 2; page <= pageCount; page += 1) {
+      const next = await fetchProductsPage({ page, rows: MAX_ROWS });
+      all.push(...next.products);
+    }
+
+    return all.map(normalizeProduct);
+  },
+
+  /** Looks up a single NFT by id. Throws `ApiError(404)` if none matches. */
+  async getProductById(id: number): Promise<Product> {
+    const products = await this.getAllProducts();
+    const product = products.find((item) => item.id === id);
+    if (!product) {
+      throw new ApiError(`Product ${id} not found`, 404);
+    }
+    return product;
   },
 };

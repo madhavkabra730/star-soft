@@ -1,7 +1,4 @@
-// Design tokens for the NFT marketplace UI.
-// Colors, font, and border-radius are taken directly from the Figma file's
-// "paleta" reference panel. Everything else (spacing scale, breakpoints,
-// shadows) is derived to fit that palette.
+// Design tokens for the NFT marketplace UI, based on Figma's "paleta" reference panel.
 
 // Colors — exact hex values from Figma's palette swatch.
 $color-primary: #ff8310;
@@ -18,8 +15,7 @@ $color-text: #ffffff;
 $color-text-muted: #cccccc;
 $color-text-faint: rgba(255, 255, 255, 0.4);
 
-// Not part of the 6-swatch Figma palette — approximates the small
-// crypto-price icon's accent color, which isn't a documented token.
+// Not part of Figma's palette — approximates the crypto icon's accent color.
 $color-accent-coin: #6c5ce7;
 
 // Typography
@@ -50,9 +46,7 @@ $space-lg: 1.5rem; // 24px
 $space-xl: 2rem; // 32px
 $space-xxl: 3rem; // 48px
 
-// Radius — Figma's design system documents a single value (8px), used
-// everywhere cards/buttons/panels need rounding. $radius-sm is a private
-// helper for small controls (badges, pills) that isn't itself in Figma.
+// Radius — 8px per Figma; $radius-sm is a private helper for small controls (badges, pills).
 $radius: 0.5rem; // 8px
 $radius-sm: 0.25rem; // 4px
 

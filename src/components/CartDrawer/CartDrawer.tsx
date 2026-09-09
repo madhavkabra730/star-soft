@@ -106,7 +106,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <footer className={styles.footer}>
               <div className={styles.total}>
                 <span>Total</span>
-                <PriceTag price={total} cryptoSymbol="ETH" cryptoIconPath="/icons/eth.svg" size="lg" />
+                <PriceTag price={total} size="lg" />
               </div>
 
               <Button

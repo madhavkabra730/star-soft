@@ -31,12 +31,7 @@ export function CartItemRow({ item, onRemove, onIncrement, onDecrement }: CartIt
           <div className={styles.itemText}>
             <p className={styles.itemName}>{item.name}</p>
             <p className={styles.itemDescription}>{item.description}</p>
-            <PriceTag
-              price={item.price}
-              cryptoSymbol={item.cryptoSymbol}
-              cryptoIconPath={item.cryptoIconPath}
-              size="sm"
-            />
+            <PriceTag price={item.price} size="sm" />
           </div>
 
           <button

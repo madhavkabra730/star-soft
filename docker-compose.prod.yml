@@ -1,6 +1,4 @@
-# Production-style run: builds the "runner" stage (Next.js standalone
-# output) instead of the hot-reloading dev server.
-#
+# Production-style run: builds the standalone "runner" stage instead of the dev server.
 # Usage: docker compose -f docker-compose.prod.yml up --build
 services:
   web:

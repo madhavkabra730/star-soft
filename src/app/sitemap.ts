@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
-import { getAllProductIds } from "@/lib/products";
+import { ProductsService } from "@/lib/api";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const nftPages: MetadataRoute.Sitemap = getAllProductIds().map((id) => ({
-    url: `${siteUrl}/nft/${id}`,
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await ProductsService.getAllProducts();
+  const nftPages: MetadataRoute.Sitemap = products.map((product) => ({
+    url: `${siteUrl}/nft/${product.id}`,
     changeFrequency: "weekly",
     priority: 0.7,
   }));

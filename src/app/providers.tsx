@@ -10,11 +10,7 @@ import { hydrateCart, selectCartHydrated, selectCartItems, type CartItem } from 
 
 const CART_STORAGE_KEY = "starsoft-nft-cart";
 
-/**
- * Restores the cart from localStorage on mount and persists it on every
- * change afterwards. Runs entirely client-side and after first paint so the
- * server-rendered (always-empty) cart never mismatches the client render.
- */
+/** Restores the cart from localStorage on mount and persists it on every change after. */
 function CartPersistenceGate({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);

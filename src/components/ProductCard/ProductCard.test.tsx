@@ -12,8 +12,6 @@ const product: Product = {
   image: "/nfts/nft-01.svg",
   price: 1.5,
   createdAt: "2025-01-01T00:00:00.000Z",
-  cryptoSymbol: "ETH",
-  cryptoIconPath: "/icons/eth.svg",
 };
 
 describe("ProductCard", () => {

@@ -3,11 +3,7 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
-/**
- * `template.tsx` re-mounts on every navigation (unlike `layout.tsx`, which
- * persists), which makes it the right place for a page-transition animation
- * without needing to key it off the pathname manually.
- */
+/** Re-mounts on every navigation (unlike layout.tsx) — drives the page transition. */
 export default function Template({ children }: { children: ReactNode }) {
   return (
     <motion.div

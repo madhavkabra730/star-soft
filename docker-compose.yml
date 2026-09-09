@@ -8,9 +8,8 @@ services:
     environment:
       NODE_ENV: development
       NEXT_TELEMETRY_DISABLED: "1"
-      # Point this at a real backend to bypass the local mock API
-      # (see README → "Why a mock API"). Defaults to the built-in
-      # /api/products Route Handlers when unset.
+      # Override the products API base URL (see README → "Data fetching").
+      # Defaults to the live Starsoft/MKS challenge API when unset.
       # NEXT_PUBLIC_API_BASE_URL: https://your-api.example.com/v1
     volumes:
       - .:/app

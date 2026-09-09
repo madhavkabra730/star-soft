@@ -1,4 +1,5 @@
 import { act, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { renderWithProviders } from "@/test-utils";
 import { Header } from "./Header";
 import { addToCart } from "@/features/cart/cartSlice";
@@ -11,8 +12,6 @@ const product: Product = {
   image: "/nfts/nft-01.svg",
   price: 1.5,
   createdAt: "2025-01-01T00:00:00.000Z",
-  cryptoSymbol: "ETH",
-  cryptoIconPath: "/icons/eth.svg",
 };
 
 describe("Header", () => {
@@ -35,5 +34,14 @@ describe("Header", () => {
       store.dispatch(addToCart(product));
     });
     expect(screen.getByRole("button", { name: /1 item/i })).toBeInTheDocument();
+  });
+
+  it("opens the cart drawer when the cart button is clicked", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Header />);
+
+    await user.click(screen.getByRole("button", { name: /Abrir carrinho/i }));
+
+    expect(await screen.findByRole("dialog", { name: "Carrinho de compras" })).toBeInTheDocument();
   });
 });

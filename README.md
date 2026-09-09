@@ -39,43 +39,57 @@ Open http://localhost:3000.
 
 ### Other scripts
 
-| Script                                      | Description                                             |
-| ------------------------------------------- | ------------------------------------------------------- |
-| `npm run build`                             | Production build                                        |
-| `npm start`                                 | Serve a production build (`npm run build` first)        |
-| `npm run lint`                              | ESLint                                                  |
-| `npm run format` / `format:check`           | Prettier — write / check                                |
-| `npm test` / `test:watch` / `test:coverage` | Jest + React Testing Library                            |
-| `npm run generate:mocks`                    | Regenerate the placeholder NFT artwork in `public/nfts` |
+| Script                                      | Description                                      |
+| ------------------------------------------- | ------------------------------------------------ |
+| `npm run build`                             | Production build                                 |
+| `npm start`                                 | Serve a production build (`npm run build` first) |
+| `npm run lint`                              | ESLint                                           |
+| `npm run format` / `format:check`           | Prettier — write / check                         |
+| `npm test` / `test:watch` / `test:coverage` | Jest + React Testing Library                     |
 
-## Why a mock API
+## Data fetching
 
-The challenge points to a live API at
-`https://starsoft-challenge-7dfd4a56a575.herokuapp.com/v1/docs`. That host has
-been **permanently decommissioned** — Heroku returns `"No such app"` (a
-deleted app, not a sleeping free dyno; verified with repeated requests at the
-time of writing). To keep the app fully functional — and to actually
-demonstrate the required SSR/SSG + React Query integration — this project
-ships its own data layer with the exact same contract:
+The app talks directly to the live **Starsoft/MKS Front-end Challenge API**,
+documented at [api-challenge.starsoft.games/api-docs](https://api-challenge.starsoft.games/api-docs/)
+(Swagger UI). The spec's own `servers` entry points at a Heroku app that's
+since been decommissioned (`"No such app"`), but the docs host itself proxies
+to a live deployment — this project defaults to that:
 
-- `GET /api/products?page=1&limit=8` → `{ data: Product[], metadata: { page, pageCount, totalCount, limit } }`
-- `GET /api/products/:id` → `Product`
-- `Product { id, name, description, image, price, createdAt, cryptoSymbol, cryptoIconPath }`
+- Base URL: `https://api-challenge.starsoft.games/api/v1`
+- `GET /products?page&rows&sortBy&orderBy` (all four query params are
+  required by the API; `rows` must be in `[5, 50]`) →
+  `{ products: RawProduct[], count: number }`
+- `RawProduct { id, name, description, image, price: string, createdAt }` —
+  `price` comes back as a decimal string (e.g. `"182.00000000"`)
+- There is **no** `GET /products/:id`. The NFT detail page,
+  `generateStaticParams`, and `sitemap.ts` all need a single item, so they
+  fetch the whole catalogue (walking `rows=50` pages, the API's own ceiling)
+  and find the item locally — see `ProductsService.getAllProducts` /
+  `getProductById` in `src/lib/api.ts`.
 
-(This shape was confirmed against a completed public solution to the same,
-now-offline challenge, to stay faithful to the original contract.)
+`src/lib/api.ts` normalizes every response into this app's internal contract
+— `Product { id, name, description, image, price: number, createdAt }` and
+`PaginatedResponse<Product> = { data, metadata: { page, limit, totalCount, pageCount } }`
+— so nothing above that layer (components, Redux, React Query hooks) needs
+to know about the real API's shape.
 
-- **Seed data**: `src/mocks/products.ts` — 24 NFTs with deterministic prices/dates.
-- **Artwork**: generated locally as SVGs by `scripts/generate-nft-art.mjs`
-  (`npm run generate:mocks`) instead of hot-linking a third-party placeholder
-  service, so the app has zero runtime dependency on external image hosts.
-- **Data access**: `src/lib/products.ts` is called directly by Server
-  Components (no self-fetch over HTTP — an antipattern in Next.js Server
-  Components); the same functions back the `/api/products*` Route Handlers
-  used by the client-side React Query hooks.
-- **Swapping in a real backend**: set `NEXT_PUBLIC_API_BASE_URL` (see
-  `.env.example`) to any server implementing the same two endpoints — no
-  component, hook, or Redux code needs to change.
+- **Server-side**: `page.tsx`, `nft/[id]/page.tsx`, and `sitemap.ts` call
+  `ProductsService` directly from Server Components (no self-fetch over
+  HTTP — an antipattern in Next.js Server Components — since this is now an
+  external API, not a route this app itself serves).
+- **Client-side**: `useProducts` / `useProduct` (React Query) call the same
+  `ProductsService` functions, seeded via `initialData` from the
+  server-rendered page so there's no loading flash for content already sent
+  as HTML.
+- **No crypto data from the API**: the real catalogue is fantasy items
+  priced in plain decimals, not NFTs priced in ETH. The Figma design still
+  shows an ETH price tag, so `PriceTag` defaults `cryptoSymbol="ETH"` /
+  `cryptoIconPath="/icons/eth.svg"` itself rather than reading them off
+  `Product` — a presentation choice, not API data.
+- **Swapping in a different deployment**: set `NEXT_PUBLIC_API_BASE_URL`
+  (see `.env.example`) to any server implementing the same
+  `GET /products?page&rows&sortBy&orderBy` contract — no component, hook, or
+  Redux code needs to change.
 
 ## Design
 
@@ -136,7 +150,7 @@ stepper, per the reference screenshots.
 
 | Area          | Choice                       | Why                                                                                                                                                                                 |
 | ------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Framework     | Next.js 16 (App Router)      | Required by the brief. SSR (product list, ISR) + SSG (`generateStaticParams` on NFT detail pages) + Route Handlers + `next/image` + `next/dynamic` are all exercised directly.      |
+| Framework     | Next.js 16 (App Router)      | Required by the brief. SSR (product list, ISR) + SSG (`generateStaticParams` on NFT detail pages) + `next/image` + `next/dynamic` are all exercised directly.                       |
 | Language      | TypeScript                   | Static typing across the Redux store, React Query hooks, and API contract — the "nice to have" in the brief.                                                                        |
 | State         | Redux Toolkit                | Required by the brief; RTK's `createSlice` keeps the cart reducer/selectors small and immutable-by-default (Immer).                                                                 |
 | Data fetching | TanStack React Query         | Required by the brief; `useInfiniteQuery` for pagination, `useQuery` (seeded via `initialData`) on the detail page so SSR content and the client cache agree with no refetch flash. |
@@ -148,17 +162,14 @@ stepper, per the reference screenshots.
 
 ```
 src/
-  app/                # App Router: pages, layouts, Route Handlers, templates
-    api/products/      # Mock API (GET list + GET by id)
+  app/                # App Router: pages, layouts, templates
     nft/[id]/          # NFT detail page (SSG)
   components/          # Reusable UI components (one folder per component)
   features/cart/       # Redux slice + selectors
   hooks/                # React Query hooks (useProducts, useProduct)
-  lib/                  # Store setup, data-access layer, API client
-  mocks/                # Seed NFT data
+  lib/                  # Store setup, API client (ProductsService)
   styles/               # SCSS variables & mixins
   types/                # Shared TypeScript types
-scripts/                # generate-nft-art.mjs — placeholder artwork generator
 ```
 
 ## Testing
@@ -167,15 +178,20 @@ scripts/                # generate-nft-art.mjs — placeholder artwork generator
 npm test
 ```
 
-37 tests across the cart reducer/selectors (including the quantity stepper),
-the mock data-access layer (`getProductsPage` / `getProductById`), and
-user-facing component behaviour (buy button state, load-more's three states
-and progress bar, cart quantity/checkout flow, cart badge count).
+39 tests across the cart reducer/selectors (including the quantity stepper),
+the API client (`ProductsService` — response normalization, query params,
+the `rows` clamp, the fetch-all-and-find `getProductById` fallback, all
+mocking `fetch`), and user-facing component behaviour (buy button state,
+load-more's three states and progress bar, cart quantity/checkout flow, cart
+badge count).
 
 ## Known limitations & possible future improvements
 
-- **No real backend.** The original API is gone; see "Why a mock API" above.
-  Swapping in a real one is a one-line env var change.
+- **No `GET /products/:id` on the real API.** The NFT detail page,
+  `generateStaticParams`, and the sitemap all fetch the full catalogue and
+  find the item locally (see "Data fetching" above) — fine at this
+  catalogue's size, but wouldn't scale to a much larger one without a real
+  by-id endpoint.
 - **Design fidelity covers the screens referenced** (shop grid, NFT card,
   cart drawer, and the finish-bt/buy-bt/load-bt component states) — pages
   outside that reference (if any exist in the full Figma file) weren't

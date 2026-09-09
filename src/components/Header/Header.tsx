@@ -8,9 +8,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { selectCartCount } from "@/features/cart/cartSlice";
 import styles from "./Header.module.scss";
 
-// CartDrawer pulls in framer-motion's AnimatePresence and is only ever
-// needed once the user opens the cart — split it into its own chunk instead
-// of shipping it in the initial page bundle.
+// Code-split: only needed once the user opens the cart.
 const CartDrawer = dynamic(() => import("@/components/CartDrawer/CartDrawer").then((mod) => mod.CartDrawer), {
   ssr: false,
 });
