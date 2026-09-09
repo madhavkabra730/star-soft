@@ -1,27 +1,26 @@
 // Design tokens for the NFT marketplace UI.
-// Dark theme with a single orange accent, inferred from the challenge's
-// Figma file (colors/spacing confirmed against a completed reference
-// solution of this exact challenge) — swap these once exact Figma
-// screenshots are available.
+// Colors, font, and border-radius are taken directly from the Figma file's
+// "paleta" reference panel. Everything else (spacing scale, breakpoints,
+// shadows) is derived to fit that palette.
 
-// Colors
+// Colors — exact hex values from Figma's palette swatch.
 $color-primary: #ff8310;
-$color-primary-hover: #e67400;
-$color-primary-active: #cc6700;
+$color-primary-hover: #e0740e;
+$color-primary-active: #c6660c;
 
-$color-bg: #191a20;
-$color-surface: #22232c;
-$color-surface-alt: #232323;
+$color-bg: #191a20; // page background
+$color-surface: #232323; // card / panel background
+$color-gray: #393939; // neutral buttons, trackers, controls
 $color-border: rgba(255, 255, 255, 0.08);
 
 $color-white: #ffffff;
 $color-text: #ffffff;
 $color-text-muted: #cccccc;
-$color-text-subtle: rgba(255, 255, 255, 0.6);
 $color-text-faint: rgba(255, 255, 255, 0.4);
 
-$color-danger: #ff3d68;
-$color-success: #22c55e;
+// Not part of the 6-swatch Figma palette — approximates the small
+// crypto-price icon's accent color, which isn't a documented token.
+$color-accent-coin: #6c5ce7;
 
 // Typography
 $font-primary:
@@ -51,10 +50,11 @@ $space-lg: 1.5rem; // 24px
 $space-xl: 2rem; // 32px
 $space-xxl: 3rem; // 48px
 
-// Radii
+// Radius — Figma's design system documents a single value (8px), used
+// everywhere cards/buttons/panels need rounding. $radius-sm is a private
+// helper for small controls (badges, pills) that isn't itself in Figma.
+$radius: 0.5rem; // 8px
 $radius-sm: 0.25rem; // 4px
-$radius-md: 0.5rem; // 8px
-$radius-lg: 1rem; // 16px
 
 // Shadows
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);

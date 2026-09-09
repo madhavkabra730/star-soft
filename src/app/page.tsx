@@ -12,13 +12,9 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <h1 className={styles.title}>Descubra NFTs únicos</h1>
-        <p className={styles.subtitle}>
-          Colecione arte digital verificada on-chain e acompanhe seu carrinho em tempo real.
-        </p>
-      </section>
-
+      {/* Visually hidden: the Figma design goes straight from header to grid,
+          but every page should still expose exactly one real heading. */}
+      <h1 className="visually-hidden">NFT Marketplace</h1>
       <ProductGrid initialData={initialData} />
     </div>
   );

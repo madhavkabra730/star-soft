@@ -60,7 +60,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
           <motion.div whileTap={{ scale: 0.97 }} className={styles.buyButtonWrap}>
             <Button
-              variant={inCart ? "secondary" : "primary"}
+              variant={inCart ? "primary" : "neutral"}
               fullWidth
               onClick={handleBuy}
               disabled={inCart}

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "styles/variables" as v;
 @use "styles/mixins" as m;
 
@@ -8,7 +9,7 @@
   gap: v.$space-sm;
   height: 3.25rem;
   padding: 0 v.$space-lg;
-  border-radius: v.$radius-md;
+  border-radius: v.$radius;
   font-weight: v.$fw-semibold;
   font-size: v.$fs-md;
   text-transform: uppercase;
@@ -41,23 +42,12 @@
   }
 }
 
-.secondary {
-  background: v.$color-surface;
-  color: v.$color-text-muted;
-  border: 1px solid v.$color-border;
+// Default "Comprar" / "Carregar mais" look from Figma's buy-bt / load-bt swatches.
+.neutral {
+  background: v.$color-gray;
+  color: v.$color-white;
 
   &:hover:not(:disabled) {
-    border-color: v.$color-primary;
-    color: v.$color-text;
-  }
-}
-
-.ghost {
-  background: transparent;
-  color: v.$color-text;
-  border: 1px solid v.$color-border;
-
-  &:hover:not(:disabled) {
-    background: v.$color-surface;
+    background: color.adjust(v.$color-gray, $lightness: 6%);
   }
 }

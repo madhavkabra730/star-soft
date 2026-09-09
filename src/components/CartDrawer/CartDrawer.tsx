@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/Button/Button";
 import { PriceTag } from "@/components/PriceTag/PriceTag";
@@ -8,6 +9,8 @@ import { CartItemRow } from "./CartItemRow";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   checkout,
+  decrementQuantity,
+  incrementQuantity,
   removeFromCart,
   resetCart,
   selectCartItems,
@@ -71,15 +74,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           >
             <header className={styles.header}>
-              <h2>Carrinho</h2>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Fechar carrinho"
-                className={styles.closeButton}
+                className={styles.backButton}
               >
-                ✕
+                <Image src="/icons/arrow-left.svg" alt="" width={18} height={18} aria-hidden />
               </button>
+              <h2>Mochila de Compras</h2>
             </header>
 
             {items.length === 0 ? (
@@ -88,7 +91,13 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <ul className={styles.items}>
                 <AnimatePresence initial={false}>
                   {items.map((item) => (
-                    <CartItemRow key={item.id} item={item} onRemove={(id) => dispatch(removeFromCart(id))} />
+                    <CartItemRow
+                      key={item.id}
+                      item={item}
+                      onRemove={(id) => dispatch(removeFromCart(id))}
+                      onIncrement={(id) => dispatch(incrementQuantity(id))}
+                      onDecrement={(id) => dispatch(decrementQuantity(id))}
+                    />
                   ))}
                 </AnimatePresence>
               </ul>

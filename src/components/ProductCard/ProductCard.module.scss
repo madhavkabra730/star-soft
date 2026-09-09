@@ -4,10 +4,11 @@
 .card {
   display: flex;
   flex-direction: column;
+  gap: v.$space-sm;
   background: v.$color-surface;
-  border-radius: v.$radius-md;
+  border-radius: v.$radius;
   box-shadow: v.$shadow-sm;
-  overflow: hidden;
+  padding: v.$space-sm;
   height: 100%;
   transition: box-shadow v.$transition-default;
 
@@ -20,22 +21,26 @@
   display: block;
 }
 
+// The artwork sits inset on its own dark panel (not edge-to-edge), matching
+// the Figma cards where the piece "floats" on a framed background.
 .imageWrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: v.$color-surface-alt;
+  background: v.$color-bg;
+  border-radius: v.$radius-sm;
+  padding: v.$space-md;
 }
 
 .image {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   gap: v.$space-sm;
-  padding: v.$space-md;
+  padding: 0 v.$space-xs;
   flex: 1;
 }
 
@@ -54,7 +59,7 @@
 
 .description {
   font-size: v.$fs-xs;
-  color: v.$color-text-subtle;
+  color: v.$color-text-muted;
   @include m.line-clamp(2);
 }
 

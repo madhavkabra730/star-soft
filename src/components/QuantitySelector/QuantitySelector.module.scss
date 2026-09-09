@@ -1,0 +1,35 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-sm;
+  width: fit-content;
+  background: v.$color-gray;
+  border-radius: v.$radius-sm;
+  padding: 2px v.$space-xs;
+
+  button {
+    @include m.button-reset;
+    @include m.flex-center;
+    @include m.focus-ring;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: v.$color-white;
+    font-size: v.$fs-md;
+    border-radius: v.$radius-sm;
+
+    &:hover {
+      background: v.$color-bg;
+    }
+  }
+}
+
+.value {
+  min-width: 1rem;
+  text-align: center;
+  font-size: v.$fs-sm;
+  font-weight: v.$fw-medium;
+  color: v.$color-white;
+}

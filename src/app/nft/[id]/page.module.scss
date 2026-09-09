@@ -10,7 +10,7 @@
 }
 
 .back {
-  color: v.$color-text-subtle;
+  color: v.$color-text-muted;
   font-size: v.$fs-sm;
   width: fit-content;
 
@@ -34,13 +34,13 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: v.$radius-lg;
-  overflow: hidden;
-  background: v.$color-surface;
+  border-radius: v.$radius;
+  background: v.$color-bg;
+  padding: v.$space-xl;
 }
 
 .image {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .info {
@@ -55,7 +55,7 @@
 }
 
 .description {
-  color: v.$color-text-subtle;
+  color: v.$color-text-muted;
   line-height: 1.6;
 }
 
