@@ -1,0 +1,65 @@
+@use "styles/variables" as v;
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@mixin shimmer-bg {
+  background: linear-gradient(90deg, v.$color-bg 25%, rgba(255, 255, 255, 0.06) 37%, v.$color-bg 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease infinite;
+  border-radius: v.$radius-sm;
+}
+
+.imageSkeleton {
+  aspect-ratio: 1 / 1;
+  border-radius: v.$radius;
+  @include shimmer-bg;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-md;
+}
+
+.line {
+  @include shimmer-bg;
+}
+
+.backSkeleton {
+  height: 0.875rem;
+  width: 4rem;
+  @include shimmer-bg;
+}
+
+.title {
+  height: 2rem;
+  width: 75%;
+}
+
+.textLong {
+  height: 0.875rem;
+  width: 100%;
+}
+
+.textMid {
+  height: 0.875rem;
+  width: 85%;
+}
+
+.textShort {
+  height: 0.75rem;
+  width: 40%;
+}
+
+.button {
+  height: 3.25rem;
+  width: 100%;
+  margin-top: v.$space-sm;
+}
