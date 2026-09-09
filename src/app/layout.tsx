@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName: "Starsoft",
-    locale: "en_US",
+    locale: "pt_BR",
   },
   twitter: {
     card: "summary_large_image",
