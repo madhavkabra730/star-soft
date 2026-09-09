@@ -142,9 +142,11 @@ stepper, per the reference screenshots.
   boundary.
 - **Animations** — page transitions (`app/template.tsx`, remounts on every
   navigation), card hover/tap, cart item enter/exit, cart drawer slide-in.
-- **Accessibility** — semantic buttons/roles, `aria-pressed` on toggling buy
-  buttons, `aria-label`s on icon-only controls, focus rings, Escape-to-close
-  on the cart drawer.
+- **Accessibility** — `<html lang="pt-BR">` (the UI copy itself is
+  Portuguese, per the brief's button-label glossary), a skip-to-content
+  link as the first focusable element on every page, semantic buttons/roles,
+  `aria-pressed` on toggling buy buttons, `aria-label`s on icon-only
+  controls, focus rings, Escape-to-close on the cart drawer.
 
 ## Tech stack & reasoning
 

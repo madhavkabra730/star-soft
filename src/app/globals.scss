@@ -71,3 +71,32 @@ p {
   white-space: nowrap;
   border: 0;
 }
+
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+
+  &:focus {
+    position: fixed;
+    top: v.$space-sm;
+    left: v.$space-sm;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: v.$space-sm v.$space-md;
+    clip: auto;
+    overflow: visible;
+    white-space: normal;
+    background: v.$color-primary;
+    color: v.$color-white;
+    border-radius: v.$radius-sm;
+    z-index: v.$z-toast;
+  }
+}

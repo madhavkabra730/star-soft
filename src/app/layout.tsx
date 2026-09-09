@@ -53,11 +53,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="pt-BR" className={poppins.variable}>
       <body>
+        <a href="#main-content" className="skip-link">
+          Pular para o conteúdo principal
+        </a>
         <Providers>
           <Header />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>
