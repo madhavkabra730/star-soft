@@ -17,6 +17,7 @@ import {
   selectCartTotal,
   selectCheckoutStatus,
 } from "@/features/cart/cartSlice";
+import { useToast } from "@/hooks/useToast";
 import styles from "./CartDrawer.module.scss";
 
 interface CartDrawerProps {
@@ -26,12 +27,24 @@ interface CartDrawerProps {
 
 const CHECKOUT_RESET_DELAY_MS = 2200;
 
-/** Slide-over cart: lists items, totals them in ETH, and drives the finish-bt purchase flow. */
+/** Cart modal: lists items, totals them in ETH, and drives the finish-bt purchase flow. */
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
   const total = useAppSelector(selectCartTotal);
   const status = useAppSelector(selectCheckoutStatus);
+  const showToast = useToast();
+
+  const handleRemove = (id: number) => {
+    const item = items.find((entry) => entry.id === id);
+    dispatch(removeFromCart(id));
+    if (item) showToast(`${item.name} removido do carrinho`, "info");
+  };
+
+  const handleCheckout = () => {
+    dispatch(checkout());
+    showToast("Compra finalizada!");
+  };
 
   // After showing "COMPRA FINALIZADA!", clear the cart and close the drawer.
   useEffect(() => {
@@ -68,10 +81,10 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             role="dialog"
             aria-modal="true"
             aria-label="Carrinho de compras"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ type: "tween", duration: 0.2, ease: "easeOut" }}
           >
             <header className={styles.header}>
               <button
@@ -80,7 +93,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 aria-label="Fechar carrinho"
                 className={styles.backButton}
               >
-                <Image src="/icons/arrow-left.svg" alt="" width={18} height={18} aria-hidden />
+                <Image src="/icons/arrow-left.svg" alt="" width={22} height={22} aria-hidden />
               </button>
               <h2>Mochila de Compras</h2>
             </header>
@@ -94,7 +107,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <CartItemRow
                       key={item.id}
                       item={item}
-                      onRemove={(id) => dispatch(removeFromCart(id))}
+                      onRemove={handleRemove}
                       onIncrement={(id) => dispatch(incrementQuantity(id))}
                       onDecrement={(id) => dispatch(decrementQuantity(id))}
                     />
@@ -106,14 +119,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <footer className={styles.footer}>
               <div className={styles.total}>
                 <span>Total</span>
-                <PriceTag price={total} size="lg" />
+                <PriceTag price={total} size="lg" className={styles.totalPrice} />
               </div>
 
               <Button
                 variant="primary"
                 fullWidth
+                className={styles.checkoutButton}
                 disabled={items.length === 0 || status === "completed"}
-                onClick={() => dispatch(checkout())}
+                onClick={handleCheckout}
               >
                 {status === "completed" ? "Compra finalizada!" : "Finalizar compra"}
               </Button>

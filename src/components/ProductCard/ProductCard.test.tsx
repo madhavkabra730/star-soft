@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithProviders } from "@/test-utils";
 import { ProductCard } from "./ProductCard";
+import { ToastViewport } from "@/components/Toast/ToastViewport";
 import { selectCartItems } from "@/features/cart/cartSlice";
 import type { Product } from "@/types/product";
 
@@ -32,5 +33,19 @@ describe("ProductCard", () => {
 
     expect(selectCartItems(store.getState())).toHaveLength(1);
     expect(screen.getByRole("button", { name: "Adicionado ao carrinho" })).toBeDisabled();
+  });
+
+  it("shows a toast confirming the item was added", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(
+      <>
+        <ProductCard product={product} />
+        <ToastViewport />
+      </>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Comprar" }));
+
+    expect(await screen.findByText("Cosmic Ape #001 adicionado ao carrinho")).toBeInTheDocument();
   });
 });

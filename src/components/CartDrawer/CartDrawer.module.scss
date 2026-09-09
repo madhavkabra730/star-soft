@@ -11,27 +11,35 @@
 
 .drawer {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  margin: auto;
   width: 100%;
-  max-width: 24rem;
+  height: 100%;
   background: v.$color-bg;
   z-index: calc(#{v.$z-cart-overlay} + 1);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   box-shadow: v.$shadow-lg;
+
+  @include m.from(v.$bp-tablet-sm) {
+    width: 679px;
+    max-width: calc(100vw - #{v.$space-xl});
+    height: min(820px, calc(100dvh - 64px));
+    border-radius: v.$radius;
+  }
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: v.$space-md;
+  gap: v.$space-lg;
   padding: v.$space-lg;
+  flex-shrink: 0;
 
   h2 {
-    font-size: v.$fs-md;
-    font-weight: v.$fw-medium;
+    font-size: 20px;
+    font-weight: v.$fw-semibold;
   }
 }
 
@@ -39,8 +47,8 @@
   @include m.button-reset;
   @include m.flex-center;
   @include m.focus-ring;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 999px;
   background: v.$color-gray;
   flex-shrink: 0;
@@ -51,6 +59,11 @@
 }
 
 .empty {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: v.$space-xl;
   color: v.$color-text-muted;
   text-align: center;
@@ -58,30 +71,50 @@
 
 .items {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 0 v.$space-lg v.$space-md;
+  padding: 0 v.$space-lg 48px;
   display: flex;
   flex-direction: column;
   gap: v.$space-lg;
+
+  @include m.from(v.$bp-tablet-sm) {
+    padding: 0 30px 63px;
+    gap: 27px;
+  }
 }
 
 .item {
   display: flex;
   align-items: flex-start;
-  gap: v.$space-sm;
-  background: v.$color-surface;
+  gap: v.$space-md;
+  background: v.$color-cart-item;
   border-radius: v.$radius;
-  padding: v.$space-sm;
+  padding: v.$space-md;
+
+  @include m.from(v.$bp-tablet-sm) {
+    padding: 19.5px 30px;
+    gap: v.$space-lg;
+  }
 }
 
 .itemImage {
   position: relative;
-  width: 4rem;
-  height: 4rem;
+  width: 6.5rem;
+  height: 6.5rem;
   flex-shrink: 0;
   border-radius: v.$radius-sm;
   overflow: hidden;
-  background: v.$color-bg;
+  background: v.$color-image-panel;
+
+  @include m.from(v.$bp-tablet-sm) {
+    width: 161px;
+    height: 161px;
+  }
+}
+
+.itemImageEl {
+  object-fit: contain;
 }
 
 .itemInfo {
@@ -89,29 +122,15 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: v.$space-sm;
-}
-
-.itemHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: v.$space-sm;
-}
-
-.itemText {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 
 .itemName {
-  font-size: v.$fs-sm;
-  font-weight: v.$fw-medium;
+  font-size: 16px;
+  font-weight: v.$fw-semibold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 9px;
 }
 
 .itemDescription {
@@ -120,15 +139,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  margin-bottom: 16px;
+}
+
+.priceRow {
+  margin-bottom: 16px;
 }
 
 .removeButton {
   @include m.button-reset;
   @include m.flex-center;
   @include m.focus-ring;
-  width: 1.75rem;
-  height: 1.75rem;
+  align-self: flex-end;
+  width: 43px;
+  height: 43px;
   border-radius: 999px;
   background: v.$color-primary;
   flex-shrink: 0;
@@ -139,16 +163,35 @@
 }
 
 .footer {
-  padding: v.$space-lg;
-  border-top: 1px solid v.$color-border;
+  padding: 0 v.$space-lg v.$space-lg;
   display: flex;
   flex-direction: column;
-  gap: v.$space-md;
+  flex-shrink: 0;
+
+  @include m.from(v.$bp-tablet-sm) {
+    padding: 0 25px v.$space-lg;
+  }
 }
 
 .total {
   @include m.flex-between;
-  font-weight: v.$fw-semibold;
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: v.$fs-sm;
+  font-size: 20px;
+  line-height: 26px;
+  margin-block: v.$space-lg;
+  padding-inline: v.$space-md;
+
+  @include m.from(v.$bp-tablet-sm) {
+    margin-block: v.$space-xl;
+    padding-inline: 25px;
+  }
+}
+
+.totalPrice {
+  font-size: 20px;
+}
+
+.checkoutButton {
+  height: 4rem;
 }

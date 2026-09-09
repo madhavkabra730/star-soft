@@ -23,25 +23,20 @@ export function CartItemRow({ item, onRemove, onIncrement, onDecrement }: CartIt
       transition={{ duration: 0.2 }}
     >
       <div className={styles.itemImage}>
-        <Image src={item.image} alt={item.name} fill sizes="64px" />
+        <Image
+          src={item.image}
+          alt={item.name}
+          fill
+          className={styles.itemImageEl}
+          sizes="(min-width: 768px) 161px, 104px"
+        />
       </div>
 
       <div className={styles.itemInfo}>
-        <div className={styles.itemHeader}>
-          <div className={styles.itemText}>
-            <p className={styles.itemName}>{item.name}</p>
-            <p className={styles.itemDescription}>{item.description}</p>
-            <PriceTag price={item.price} size="sm" />
-          </div>
-
-          <button
-            type="button"
-            className={styles.removeButton}
-            onClick={() => onRemove(item.id)}
-            aria-label={`Remover ${item.name} do carrinho`}
-          >
-            <Image src="/icons/trash.svg" alt="" width={16} height={16} aria-hidden />
-          </button>
+        <p className={styles.itemName}>{item.name}</p>
+        <p className={styles.itemDescription}>{item.description}</p>
+        <div className={styles.priceRow}>
+          <PriceTag price={item.price} size="sm" />
         </div>
 
         <QuantitySelector
@@ -51,6 +46,15 @@ export function CartItemRow({ item, onRemove, onIncrement, onDecrement }: CartIt
           onDecrement={() => onDecrement(item.id)}
         />
       </div>
+
+      <button
+        type="button"
+        className={styles.removeButton}
+        onClick={() => onRemove(item.id)}
+        aria-label={`Remover ${item.name} do carrinho`}
+      >
+        <Image src="/icons/trash.svg" alt="" width={26} height={26} aria-hidden />
+      </button>
     </motion.li>
   );
 }

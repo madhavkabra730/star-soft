@@ -9,9 +9,9 @@
   border-radius: v.$radius;
   box-shadow: v.$shadow-sm;
   padding-block: 26px;
-  max-width: 345px;
+  width: 345px;
+  height: 555px;
   min-width: 0;
-  height: 100%;
   transition: box-shadow v.$transition-default;
 
   &:hover {
@@ -21,7 +21,7 @@
 
 .imageLink {
   display: block;
-  margin-inline: 28px;
+  margin-inline: 24.5px;
 }
 
 .imageWrapper {
@@ -34,7 +34,7 @@
 }
 
 .image {
-  object-fit: contain;
+  object-fit: fill;
 }
 
 .content {
@@ -67,7 +67,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .footer {

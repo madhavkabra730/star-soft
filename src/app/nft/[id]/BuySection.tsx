@@ -6,6 +6,7 @@ import { PriceTag } from "@/components/PriceTag/PriceTag";
 import { Button } from "@/components/Button/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addToCart, selectIsInCart } from "@/features/cart/cartSlice";
+import { useToast } from "@/hooks/useToast";
 import type { Product } from "@/types/product";
 import styles from "./BuySection.module.scss";
 
@@ -19,6 +20,14 @@ export function BuySection({ product: initialProduct }: BuySectionProps) {
   const { data: product } = useProduct(initialProduct.id, { initialData: initialProduct });
   const dispatch = useAppDispatch();
   const inCart = useAppSelector(selectIsInCart(product.id));
+  const showToast = useToast();
+
+  const handleBuy = () => {
+    if (!inCart) {
+      dispatch(addToCart(product));
+      showToast(`${product.name} adicionado ao carrinho`);
+    }
+  };
 
   return (
     <div className={styles.buySection}>
@@ -27,7 +36,7 @@ export function BuySection({ product: initialProduct }: BuySectionProps) {
       <motion.div whileTap={{ scale: 0.97 }}>
         <Button
           variant={inCart ? "neutral" : "primary"}
-          onClick={() => !inCart && dispatch(addToCart(product))}
+          onClick={handleBuy}
           disabled={inCart}
           aria-pressed={inCart}
         >

@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { makeStore } from "@/lib/store";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { hydrateCart, selectCartHydrated, selectCartItems, type CartItem } from "@/features/cart/cartSlice";
+import { ToastViewport } from "@/components/Toast/ToastViewport";
 
 const CART_STORAGE_KEY = "starsoft-nft-cart";
 
@@ -61,6 +62,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <CartPersistenceGate>{children}</CartPersistenceGate>
+        <ToastViewport />
         {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </Provider>

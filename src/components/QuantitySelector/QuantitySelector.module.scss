@@ -8,28 +8,33 @@
   width: fit-content;
   background: v.$color-gray;
   border-radius: v.$radius-sm;
-  padding: 2px v.$space-xs;
+  padding: v.$space-xs;
+  margin-top: v.$space-xs;
+
+  @include m.from(v.$bp-tablet-sm) {
+    width: 115px;
+    height: 49px;
+    justify-content: space-between;
+    background: v.$color-bg;
+    padding-inline: v.$space-sm;
+  }
 
   button {
     @include m.button-reset;
     @include m.flex-center;
     @include m.focus-ring;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     color: v.$color-white;
-    font-size: v.$fs-md;
+    font-size: v.$fs-lg;
     border-radius: v.$radius-sm;
-
-    &:hover {
-      background: v.$color-bg;
-    }
   }
 }
 
 .value {
-  min-width: 1rem;
+  min-width: 1.25rem;
   text-align: center;
-  font-size: v.$fs-sm;
-  font-weight: v.$fw-medium;
+  font-size: v.$fs-md;
+  font-weight: v.$fw-semibold;
   color: v.$color-white;
 }

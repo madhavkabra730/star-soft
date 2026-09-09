@@ -4,25 +4,21 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: v.$space-xl;
+  gap: 64px;
+
+  @include m.from(v.$bp-desktop) {
+    gap: 180px;
+  }
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, 345px);
+  justify-content: center;
   gap: v.$space-md;
 
-  @include m.from(v.$bp-mobile) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   @include m.from(v.$bp-tablet-sm) {
-    grid-template-columns: repeat(3, 1fr);
     gap: v.$space-lg;
-  }
-
-  @include m.from(v.$bp-desktop) {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
 

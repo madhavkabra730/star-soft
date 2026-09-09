@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "@/features/cart/cartSlice";
+import toastReducer from "@/features/toast/toastSlice";
 
 export function makeStore() {
   return configureStore({
     reducer: {
       cart: cartReducer,
+      toast: toastReducer,
     },
   });
 }

@@ -3,7 +3,7 @@
 
 .page {
   @include m.container;
-  padding-top: v.$space-xl;
+  padding-block: v.$space-xl v.$space-xxl;
   display: flex;
   flex-direction: column;
   gap: v.$space-lg;

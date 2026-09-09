@@ -7,6 +7,7 @@ import { Button } from "@/components/Button/Button";
 import { PriceTag } from "@/components/PriceTag/PriceTag";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addToCart, selectIsInCart } from "@/features/cart/cartSlice";
+import { useToast } from "@/hooks/useToast";
 import type { Product } from "@/types/product";
 import styles from "./ProductCard.module.scss";
 
@@ -19,10 +20,12 @@ interface ProductCardProps {
 export function ProductCard({ product, priority = false }: ProductCardProps) {
   const dispatch = useAppDispatch();
   const inCart = useAppSelector(selectIsInCart(product.id));
+  const showToast = useToast();
 
   const handleBuy = () => {
     if (!inCart) {
       dispatch(addToCart(product));
+      showToast(`${product.name} adicionado ao carrinho`);
     }
   };
 
