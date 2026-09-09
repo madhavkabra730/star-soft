@@ -4,11 +4,13 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: v.$space-sm;
+  gap: 49px;
   background: v.$color-surface;
   border-radius: v.$radius;
   box-shadow: v.$shadow-sm;
-  padding: v.$space-sm;
+  padding-block: 26px;
+  max-width: 345px;
+  min-width: 0;
   height: 100%;
   transition: box-shadow v.$transition-default;
 
@@ -19,15 +21,14 @@
 
 .imageLink {
   display: block;
+  margin-inline: 28px;
 }
 
-// The artwork sits inset on its own dark panel (not edge-to-edge), matching
-// the Figma cards where the piece "floats" on a framed background.
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  background: v.$color-bg;
+  aspect-ratio: 296 / 258;
+  background: v.$color-image-panel;
   border-radius: v.$radius-sm;
   padding: v.$space-md;
 }
@@ -39,19 +40,21 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: v.$space-sm;
-  padding: 0 v.$space-xs;
   flex: 1;
+  margin-inline: 24.5px;
+  min-width: 0;
 }
 
 .titleLink {
+  margin-bottom: 10px;
+
   &:hover .title {
     color: v.$color-primary;
   }
 }
 
 .title {
-  font-size: v.$fs-md;
+  font-size: 18px;
   font-weight: v.$fw-medium;
   color: v.$color-text;
   transition: color v.$transition-fast;
@@ -59,18 +62,24 @@
 
 .description {
   font-size: v.$fs-xs;
+  letter-spacing: 1px;
   color: v.$color-text-muted;
-  @include m.line-clamp(2);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 20px;
 }
 
 .footer {
   display: flex;
   flex-direction: column;
-  gap: v.$space-md;
-  margin-top: auto;
-  padding-top: v.$space-sm;
+  gap: 24px;
 }
 
 .buyButtonWrap {
   width: 100%;
+}
+
+.buyButton {
+  height: 66px;
 }

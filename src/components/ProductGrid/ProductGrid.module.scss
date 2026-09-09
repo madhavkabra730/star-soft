@@ -9,8 +9,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: v.$space-md;
+
+  @include m.from(v.$bp-mobile) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   @include m.from(v.$bp-tablet-sm) {
     grid-template-columns: repeat(3, 1fr);

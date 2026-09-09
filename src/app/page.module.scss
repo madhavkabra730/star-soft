@@ -3,5 +3,9 @@
 
 .page {
   @include m.container;
-  padding-block: v.$space-xl v.$space-xxl;
+  padding-top: 64px;
+
+  @include m.from(v.$bp-desktop) {
+    padding-top: 180px;
+  }
 }

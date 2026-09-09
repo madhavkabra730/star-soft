@@ -26,7 +26,7 @@ export function BuySection({ product: initialProduct }: BuySectionProps) {
 
       <motion.div whileTap={{ scale: 0.97 }}>
         <Button
-          variant={inCart ? "primary" : "neutral"}
+          variant={inCart ? "neutral" : "primary"}
           onClick={() => !inCart && dispatch(addToCart(product))}
           disabled={inCart}
           aria-pressed={inCart}

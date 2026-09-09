@@ -1,14 +1,12 @@
 @use "sass:list";
 @use "variables" as v;
 
-/// Applies content when the viewport is at least $breakpoint wide.
 @mixin from($breakpoint) {
   @media (min-width: $breakpoint) {
     @content;
   }
 }
 
-/// Applies content when the viewport is narrower than $breakpoint.
 @mixin until($breakpoint) {
   @media (max-width: $breakpoint) {
     @content;
@@ -27,7 +25,6 @@
   justify-content: space-between;
 }
 
-/// Truncates text to $lines lines with an ellipsis.
 @mixin line-clamp($lines: 2) {
   display: -webkit-box;
   -webkit-line-clamp: $lines;
@@ -46,7 +43,6 @@
   cursor: pointer;
 }
 
-/// Visible focus ring for keyboard navigation, kept off for pointer users.
 @mixin focus-ring {
   &:focus-visible {
     outline: 2px solid v.$color-primary;
@@ -62,5 +58,9 @@
 
   @include from(v.$bp-tablet-sm) {
     padding-inline: v.$space-xl;
+  }
+
+  @include from(v.$bp-wide) {
+    padding-inline: 139px;
   }
 }

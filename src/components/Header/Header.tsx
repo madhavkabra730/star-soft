@@ -32,7 +32,7 @@ export function Header() {
             aria-label={`Abrir carrinho, ${cartCount} ${cartCount === 1 ? "item" : "itens"}`}
           >
             <Image src="/icons/bag.svg" alt="" width={26} height={26} aria-hidden />
-            {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
+            <span className={styles.count}>{cartCount}</span>
           </button>
         </div>
       </header>

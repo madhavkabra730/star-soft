@@ -5,8 +5,7 @@
   position: sticky;
   top: 0;
   z-index: v.$z-header;
-  background: rgba(25, 26, 32, 0.85);
-  backdrop-filter: blur(8px);
+  background: v.$color-bg;
   border-bottom: 1px solid v.$color-border;
 }
 
@@ -25,12 +24,13 @@
 .cartButton {
   @include m.button-reset;
   @include m.focus-ring;
-  position: relative;
-  width: 2.75rem;
-  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-sm;
+  padding: v.$space-sm;
   border-radius: v.$radius;
   color: v.$color-text;
-  @include m.flex-center;
   transition: v.$transition-fast;
 
   &:hover {
@@ -38,17 +38,8 @@
   }
 }
 
-.badge {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  min-width: 1.125rem;
-  height: 1.125rem;
-  padding: 0 4px;
-  border-radius: 999px;
-  background: v.$color-primary;
+.count {
+  font-size: v.$fs-md;
+  font-weight: v.$fw-regular;
   color: v.$color-white;
-  font-size: 0.625rem;
-  font-weight: v.$fw-semibold;
-  @include m.flex-center;
 }

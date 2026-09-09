@@ -15,7 +15,7 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   transition: v.$transition-fast;
-  white-space: nowrap;
+  text-align: center;
 
   &:disabled {
     cursor: not-allowed;
@@ -42,7 +42,6 @@
   }
 }
 
-// Default "Comprar" / "Carregar mais" look from Figma's buy-bt / load-bt swatches.
 .neutral {
   background: v.$color-gray;
   color: v.$color-white;

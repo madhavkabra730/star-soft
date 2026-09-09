@@ -15,12 +15,12 @@ const product: Product = {
 };
 
 describe("Header", () => {
-  it("shows no cart badge when the cart is empty", () => {
+  it("shows a zero cart count when the cart is empty", () => {
     renderWithProviders(<Header />);
-    expect(screen.queryByText("0")).not.toBeInTheDocument();
+    expect(screen.getByText("0")).toBeInTheDocument();
   });
 
-  it("shows the item count badge once something is in the cart", () => {
+  it("shows the item count once something is in the cart", () => {
     const { store } = renderWithProviders(<Header />);
     act(() => {
       store.dispatch(addToCart(product));

@@ -1,13 +1,11 @@
-// Design tokens for the NFT marketplace UI, based on Figma's "paleta" reference panel.
-
-// Colors — exact hex values from Figma's palette swatch.
 $color-primary: #ff8310;
 $color-primary-hover: #e0740e;
 $color-primary-active: #c6660c;
 
-$color-bg: #191a20; // page background
-$color-surface: #232323; // card / panel background
-$color-gray: #393939; // neutral buttons, trackers, controls
+$color-bg: #232323;
+$color-surface: #191a20;
+$color-image-panel: #22232c;
+$color-gray: #393939;
 $color-border: rgba(255, 255, 255, 0.08);
 
 $color-white: #ffffff;
@@ -15,22 +13,20 @@ $color-text: #ffffff;
 $color-text-muted: #cccccc;
 $color-text-faint: rgba(255, 255, 255, 0.4);
 
-// Not part of Figma's palette — approximates the crypto icon's accent color.
 $color-accent-coin: #6c5ce7;
 
-// Typography
 $font-primary:
   var(--font-poppins),
   "Poppins",
   -apple-system,
   sans-serif;
 
-$fs-xs: 0.75rem; // 12px
-$fs-sm: 0.875rem; // 14px
-$fs-md: 1rem; // 16px
-$fs-lg: 1.25rem; // 20px
-$fs-xl: 1.5rem; // 24px
-$fs-xxl: 2rem; // 32px
+$fs-xs: 0.75rem;
+$fs-sm: 0.875rem;
+$fs-md: 1rem;
+$fs-lg: 1.25rem;
+$fs-xl: 1.5rem;
+$fs-xxl: 2rem;
 
 $fw-light: 300;
 $fw-regular: 400;
@@ -38,40 +34,33 @@ $fw-medium: 500;
 $fw-semibold: 600;
 $fw-bold: 700;
 
-// Spacing scale
-$space-xs: 0.25rem; // 4px
-$space-sm: 0.5rem; // 8px
-$space-md: 1rem; // 16px
-$space-lg: 1.5rem; // 24px
-$space-xl: 2rem; // 32px
-$space-xxl: 3rem; // 48px
+$space-xs: 0.25rem;
+$space-sm: 0.5rem;
+$space-md: 1rem;
+$space-lg: 1.5rem;
+$space-xl: 2rem;
+$space-xxl: 3rem;
 
-// Radius — 8px per Figma; $radius-sm is a private helper for small controls (badges, pills).
-$radius: 0.5rem; // 8px
-$radius-sm: 0.25rem; // 4px
+$radius: 0.5rem;
+$radius-sm: 0.25rem;
 
-// Shadows
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
 $shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
 $shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.35);
 
-// Breakpoints (min-width)
-$bp-mobile: 30rem; // 480px
-$bp-tablet-sm: 48rem; // 768px
-$bp-tablet: 64rem; // 1024px
-$bp-desktop: 80rem; // 1280px
-$bp-wide: 90rem; // 1440px
+$bp-mobile: 30rem;
+$bp-tablet-sm: 48rem;
+$bp-tablet: 64rem;
+$bp-desktop: 80rem;
+$bp-wide: 90rem;
 
-// Layout
-$container-max-width: 90rem;
+$container-max-width: 120rem;
 $header-height: 4.5rem;
 
-// Transitions
 $transition-fast: all 0.15s ease;
 $transition-default: all 0.25s ease;
 $transition-slow: all 0.4s ease;
 
-// Z-index scale
 $z-header: 100;
 $z-cart-overlay: 300;
 $z-toast: 400;

@@ -3,7 +3,7 @@
 
 .page {
   @include m.container;
-  padding-block: v.$space-xl v.$space-xxl;
+  padding-top: v.$space-xl;
   display: flex;
   flex-direction: column;
   gap: v.$space-lg;
@@ -35,7 +35,7 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: v.$radius;
-  background: v.$color-bg;
+  background: v.$color-image-panel;
   padding: v.$space-xl;
 }
 

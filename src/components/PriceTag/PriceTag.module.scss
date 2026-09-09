@@ -28,7 +28,12 @@
 }
 
 .md {
-  font-size: v.$fs-md;
+  font-size: v.$fs-lg;
+
+  .icon {
+    width: 29px;
+    height: 29px;
+  }
 }
 
 .lg {
