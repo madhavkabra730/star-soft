@@ -26,7 +26,9 @@ docker compose -f docker-compose.prod.yml up --build
 
 ### Option B — Local Node.js
 
-Requires Node.js ≥ 20.9.
+Requires Node.js ≥ 22 (Next.js itself only needs ≥ 20.9, but
+`@testing-library/jest-dom` requires ≥ 22 — the Docker image and CI-style
+checks in this repo are pinned to Node 22 to match).
 
 ```bash
 npm install
@@ -37,14 +39,14 @@ Open http://localhost:3000.
 
 ### Other scripts
 
-| Script                  | Description                                             |
-| ------------------------ | -------------------------------------------------------- |
-| `npm run build`          | Production build                                         |
-| `npm start`               | Serve a production build (`npm run build` first)         |
-| `npm run lint`             | ESLint                                                    |
-| `npm run format` / `format:check` | Prettier — write / check                          |
-| `npm test` / `test:watch` / `test:coverage` | Jest + React Testing Library         |
-| `npm run generate:mocks` | Regenerate the placeholder NFT artwork in `public/nfts`   |
+| Script                                      | Description                                             |
+| ------------------------------------------- | ------------------------------------------------------- |
+| `npm run build`                             | Production build                                        |
+| `npm start`                                 | Serve a production build (`npm run build` first)        |
+| `npm run lint`                              | ESLint                                                  |
+| `npm run format` / `format:check`           | Prettier — write / check                                |
+| `npm test` / `test:watch` / `test:coverage` | Jest + React Testing Library                            |
+| `npm run generate:mocks`                    | Regenerate the placeholder NFT artwork in `public/nfts` |
 
 ## Why a mock API
 
@@ -117,15 +119,15 @@ Modules make layout tweaks isolated and low-risk.
 
 ## Tech stack & reasoning
 
-| Area | Choice | Why |
-| --- | --- | --- |
-| Framework | Next.js 16 (App Router) | Required by the brief. SSR (product list, ISR) + SSG (`generateStaticParams` on NFT detail pages) + Route Handlers + `next/image` + `next/dynamic` are all exercised directly. |
-| Language | TypeScript | Static typing across the Redux store, React Query hooks, and API contract — the "nice to have" in the brief. |
-| State | Redux Toolkit | Required by the brief; RTK's `createSlice` keeps the cart reducer/selectors small and immutable-by-default (Immer). |
-| Data fetching | TanStack React Query | Required by the brief; `useInfiniteQuery` for pagination, `useQuery` (seeded via `initialData`) on the detail page so SSR content and the client cache agree with no refetch flash. |
-| Styling | SCSS Modules | Required (SASS); modules keep styles component-scoped, `src/styles/_variables.scss` / `_mixins.scss` centralise tokens and are `@use`d project-wide via `sassOptions.loadPaths`. |
-| Animation | Framer Motion | Required by the brief; used for hover/tap micro-interactions, list enter/exit, drawer and page transitions. |
-| Testing | Jest + React Testing Library | Required by the brief; `next/jest` handles the SWC/SCSS-module wiring. |
+| Area          | Choice                       | Why                                                                                                                                                                                 |
+| ------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework     | Next.js 16 (App Router)      | Required by the brief. SSR (product list, ISR) + SSG (`generateStaticParams` on NFT detail pages) + Route Handlers + `next/image` + `next/dynamic` are all exercised directly.      |
+| Language      | TypeScript                   | Static typing across the Redux store, React Query hooks, and API contract — the "nice to have" in the brief.                                                                        |
+| State         | Redux Toolkit                | Required by the brief; RTK's `createSlice` keeps the cart reducer/selectors small and immutable-by-default (Immer).                                                                 |
+| Data fetching | TanStack React Query         | Required by the brief; `useInfiniteQuery` for pagination, `useQuery` (seeded via `initialData`) on the detail page so SSR content and the client cache agree with no refetch flash. |
+| Styling       | SCSS Modules                 | Required (SASS); modules keep styles component-scoped, `src/styles/_variables.scss` / `_mixins.scss` centralise tokens and are `@use`d project-wide via `sassOptions.loadPaths`.    |
+| Animation     | Framer Motion                | Required by the brief; used for hover/tap micro-interactions, list enter/exit, drawer and page transitions.                                                                         |
+| Testing       | Jest + React Testing Library | Required by the brief; `next/jest` handles the SWC/SCSS-module wiring.                                                                                                              |
 
 ## Project structure
 
