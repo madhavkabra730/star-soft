@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import { ProductsService } from "@/lib/api";
 import { BuySection } from "./BuySection";
 import styles from "./page.module.scss";
+
+const getProduct = cache((id: number) => ProductsService.getProductById(id));
 
 interface NftPageProps {
   params: Promise<{ id: string }>;
@@ -17,7 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: NftPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = await ProductsService.getProductById(Number(id)).catch(() => undefined);
+  const product = await getProduct(Number(id)).catch(() => undefined);
 
   if (!product) return { title: "NFT não encontrado" };
 
@@ -34,7 +37,7 @@ export async function generateMetadata({ params }: NftPageProps): Promise<Metada
 
 export default async function NftDetailPage({ params }: NftPageProps) {
   const { id } = await params;
-  const product = await ProductsService.getProductById(Number(id)).catch(() => undefined);
+  const product = await getProduct(Number(id)).catch(() => undefined);
 
   if (!product) {
     notFound();
