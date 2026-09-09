@@ -1,0 +1,44 @@
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { PriceTag } from "@/components/PriceTag/PriceTag";
+import type { CartItem } from "@/features/cart/cartSlice";
+import styles from "./CartDrawer.module.scss";
+
+interface CartItemRowProps {
+  item: CartItem;
+  onRemove: (id: number) => void;
+}
+
+export function CartItemRow({ item, onRemove }: CartItemRowProps) {
+  return (
+    <motion.li
+      className={styles.item}
+      layout
+      initial={{ opacity: 0, x: 24 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 24, height: 0, marginBottom: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <div className={styles.itemImage}>
+        <Image src={item.image} alt={item.name} fill sizes="64px" />
+      </div>
+      <div className={styles.itemInfo}>
+        <p className={styles.itemName}>{item.name}</p>
+        <PriceTag
+          price={item.price}
+          cryptoSymbol={item.cryptoSymbol}
+          cryptoIconPath={item.cryptoIconPath}
+          size="sm"
+        />
+      </div>
+      <button
+        type="button"
+        className={styles.removeButton}
+        onClick={() => onRemove(item.id)}
+        aria-label={`Remover ${item.name} do carrinho`}
+      >
+        ✕
+      </button>
+    </motion.li>
+  );
+}

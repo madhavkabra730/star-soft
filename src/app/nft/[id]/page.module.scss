@@ -1,0 +1,65 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.page {
+  @include m.container;
+  padding-block: v.$space-xl v.$space-xxl;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-lg;
+}
+
+.back {
+  color: v.$color-text-subtle;
+  font-size: v.$fs-sm;
+  width: fit-content;
+
+  &:hover {
+    color: v.$color-text;
+  }
+}
+
+.layout {
+  display: grid;
+  gap: v.$space-xl;
+  grid-template-columns: 1fr;
+
+  @include m.from(v.$bp-tablet) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: v.$radius-lg;
+  overflow: hidden;
+  background: v.$color-surface;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-md;
+}
+
+.title {
+  font-size: v.$fs-xxl;
+  font-weight: v.$fw-bold;
+}
+
+.description {
+  color: v.$color-text-subtle;
+  line-height: 1.6;
+}
+
+.date {
+  color: v.$color-text-faint;
+  font-size: v.$fs-xs;
+}

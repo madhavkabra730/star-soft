@@ -1,0 +1,9 @@
+@use "styles/variables" as v;
+
+.buySection {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-lg;
+  padding-top: v.$space-md;
+  border-top: 1px solid v.$color-border;
+}

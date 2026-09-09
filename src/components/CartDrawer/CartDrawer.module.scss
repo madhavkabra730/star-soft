@@ -1,0 +1,124 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: v.$z-cart-overlay;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 24rem;
+  background: v.$color-surface;
+  z-index: calc(#{v.$z-cart-overlay} + 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: v.$shadow-lg;
+}
+
+.header {
+  @include m.flex-between;
+  padding: v.$space-lg;
+  border-bottom: 1px solid v.$color-border;
+
+  h2 {
+    font-size: v.$fs-lg;
+    font-weight: v.$fw-semibold;
+  }
+}
+
+.closeButton {
+  @include m.button-reset;
+  @include m.flex-center;
+  @include m.focus-ring;
+  width: 2rem;
+  height: 2rem;
+  border-radius: v.$radius-sm;
+  color: v.$color-text-subtle;
+
+  &:hover {
+    background: v.$color-surface-alt;
+    color: v.$color-text;
+  }
+}
+
+.empty {
+  padding: v.$space-xl;
+  color: v.$color-text-subtle;
+  text-align: center;
+}
+
+.items {
+  flex: 1;
+  overflow-y: auto;
+  padding: v.$space-md v.$space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-md;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: v.$space-sm;
+}
+
+.itemImage {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  border-radius: v.$radius-sm;
+  overflow: hidden;
+  background: v.$color-surface-alt;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemName {
+  font-size: v.$fs-sm;
+  font-weight: v.$fw-medium;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.removeButton {
+  @include m.button-reset;
+  @include m.flex-center;
+  @include m.focus-ring;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: v.$radius-sm;
+  color: v.$color-text-faint;
+  flex-shrink: 0;
+
+  &:hover {
+    color: v.$color-danger;
+  }
+}
+
+.footer {
+  padding: v.$space-lg;
+  border-top: 1px solid v.$color-border;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-md;
+}
+
+.total {
+  @include m.flex-between;
+  font-weight: v.$fw-semibold;
+}
