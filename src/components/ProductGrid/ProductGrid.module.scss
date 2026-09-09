@@ -1,0 +1,36 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xl;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: v.$space-md;
+
+  @include m.from(v.$bp-tablet-sm) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: v.$space-lg;
+  }
+
+  @include m.from(v.$bp-desktop) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.loadMoreWrapper {
+  @include m.flex-center;
+}
+
+.state {
+  @include m.flex-center;
+  flex-direction: column;
+  gap: v.$space-md;
+  padding: v.$space-xxl v.$space-md;
+  text-align: center;
+  color: v.$color-text-subtle;
+}

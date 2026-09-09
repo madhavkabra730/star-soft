@@ -1,0 +1,15 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.footer {
+  border-top: 1px solid v.$color-border;
+  margin-top: v.$space-xxl;
+}
+
+.content {
+  @include m.container;
+  padding-block: v.$space-lg;
+  color: v.$color-text-faint;
+  font-size: v.$fs-xs;
+  text-align: center;
+}

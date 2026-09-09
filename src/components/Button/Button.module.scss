@@ -1,0 +1,63 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.button {
+  @include m.flex-center;
+  @include m.button-reset;
+  @include m.focus-ring;
+  gap: v.$space-sm;
+  height: 3.25rem;
+  padding: 0 v.$space-lg;
+  border-radius: v.$radius-md;
+  font-weight: v.$fw-semibold;
+  font-size: v.$fs-md;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: v.$transition-fast;
+  white-space: nowrap;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.primary {
+  background: v.$color-primary;
+  color: v.$color-white;
+  box-shadow: v.$shadow-md;
+
+  &:hover:not(:disabled) {
+    background: v.$color-primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background: v.$color-primary-active;
+    transform: translateY(1px);
+  }
+}
+
+.secondary {
+  background: v.$color-surface;
+  color: v.$color-text-muted;
+  border: 1px solid v.$color-border;
+
+  &:hover:not(:disabled) {
+    border-color: v.$color-primary;
+    color: v.$color-text;
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: v.$color-text;
+  border: 1px solid v.$color-border;
+
+  &:hover:not(:disabled) {
+    background: v.$color-surface;
+  }
+}

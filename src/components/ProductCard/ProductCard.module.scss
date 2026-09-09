@@ -1,0 +1,71 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: v.$color-surface;
+  border-radius: v.$radius-md;
+  box-shadow: v.$shadow-sm;
+  overflow: hidden;
+  height: 100%;
+  transition: box-shadow v.$transition-default;
+
+  &:hover {
+    box-shadow: v.$shadow-lg;
+  }
+}
+
+.imageLink {
+  display: block;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: v.$color-surface-alt;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-sm;
+  padding: v.$space-md;
+  flex: 1;
+}
+
+.titleLink {
+  &:hover .title {
+    color: v.$color-primary;
+  }
+}
+
+.title {
+  font-size: v.$fs-md;
+  font-weight: v.$fw-medium;
+  color: v.$color-text;
+  transition: color v.$transition-fast;
+}
+
+.description {
+  font-size: v.$fs-xs;
+  color: v.$color-text-subtle;
+  @include m.line-clamp(2);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-md;
+  margin-top: auto;
+  padding-top: v.$space-sm;
+}
+
+.buyButtonWrap {
+  width: 100%;
+}

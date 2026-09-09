@@ -1,0 +1,63 @@
+@use "styles/variables" as v;
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@mixin shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    v.$color-surface-alt 25%,
+    rgba(255, 255, 255, 0.06) 37%,
+    v.$color-surface-alt 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease infinite;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: v.$color-surface;
+  border-radius: v.$radius-md;
+  overflow: hidden;
+  height: 100%;
+}
+
+.image {
+  aspect-ratio: 1 / 1;
+  @include shimmer-bg;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-sm;
+  padding: v.$space-md;
+}
+
+.line {
+  border-radius: v.$radius-sm;
+  @include shimmer-bg;
+}
+
+.title {
+  height: 1rem;
+  width: 70%;
+}
+
+.text {
+  height: 0.75rem;
+  width: 90%;
+}
+
+.button {
+  height: 3.25rem;
+  width: 100%;
+  margin-top: v.$space-sm;
+}

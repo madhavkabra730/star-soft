@@ -1,0 +1,41 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.priceTag {
+  @include m.flex-center;
+  justify-content: flex-start;
+  gap: v.$space-xs;
+  font-weight: v.$fw-semibold;
+  color: v.$color-text;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.symbol {
+  color: v.$color-text-subtle;
+  font-weight: v.$fw-regular;
+}
+
+.sm {
+  font-size: v.$fs-sm;
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.md {
+  font-size: v.$fs-md;
+}
+
+.lg {
+  font-size: v.$fs-xl;
+
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+}
