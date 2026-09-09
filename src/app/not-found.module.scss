@@ -1,0 +1,21 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.wrapper {
+  @include m.container;
+  @include m.flex-center;
+  flex-direction: column;
+  gap: v.$space-md;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.code {
+  font-size: 4rem;
+  font-weight: v.$fw-bold;
+  color: v.$color-primary;
+}
+
+.message {
+  color: v.$color-text-subtle;
+}
