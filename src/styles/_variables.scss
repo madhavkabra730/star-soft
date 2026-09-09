@@ -1,0 +1,83 @@
+// Design tokens for the NFT marketplace UI.
+// Dark theme with a single orange accent, inferred from the challenge's
+// Figma file (colors/spacing confirmed against a completed reference
+// solution of this exact challenge) — swap these once exact Figma
+// screenshots are available.
+
+// Colors
+$color-primary: #ff8310;
+$color-primary-hover: #e67400;
+$color-primary-active: #cc6700;
+
+$color-bg: #191a20;
+$color-surface: #22232c;
+$color-surface-alt: #232323;
+$color-border: rgba(255, 255, 255, 0.08);
+
+$color-white: #ffffff;
+$color-text: #ffffff;
+$color-text-muted: #cccccc;
+$color-text-subtle: rgba(255, 255, 255, 0.6);
+$color-text-faint: rgba(255, 255, 255, 0.4);
+
+$color-danger: #ff3d68;
+$color-success: #22c55e;
+
+// Typography
+$font-primary:
+  var(--font-poppins),
+  "Poppins",
+  -apple-system,
+  sans-serif;
+
+$fs-xs: 0.75rem; // 12px
+$fs-sm: 0.875rem; // 14px
+$fs-md: 1rem; // 16px
+$fs-lg: 1.25rem; // 20px
+$fs-xl: 1.5rem; // 24px
+$fs-xxl: 2rem; // 32px
+
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+
+// Spacing scale
+$space-xs: 0.25rem; // 4px
+$space-sm: 0.5rem; // 8px
+$space-md: 1rem; // 16px
+$space-lg: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-xxl: 3rem; // 48px
+
+// Radii
+$radius-sm: 0.25rem; // 4px
+$radius-md: 0.5rem; // 8px
+$radius-lg: 1rem; // 16px
+
+// Shadows
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+$shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+// Breakpoints (min-width)
+$bp-mobile: 30rem; // 480px
+$bp-tablet-sm: 48rem; // 768px
+$bp-tablet: 64rem; // 1024px
+$bp-desktop: 80rem; // 1280px
+$bp-wide: 90rem; // 1440px
+
+// Layout
+$container-max-width: 90rem;
+$header-height: 4.5rem;
+
+// Transitions
+$transition-fast: all 0.15s ease;
+$transition-default: all 0.25s ease;
+$transition-slow: all 0.4s ease;
+
+// Z-index scale
+$z-header: 100;
+$z-cart-overlay: 300;
+$z-toast: 400;

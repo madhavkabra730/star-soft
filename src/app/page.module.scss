@@ -1,0 +1,31 @@
+@use "styles/variables" as v;
+@use "styles/mixins" as m;
+
+.page {
+  @include m.container;
+  padding-block: v.$space-xl v.$space-xxl;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xl;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-sm;
+  max-width: 40rem;
+}
+
+.title {
+  font-size: v.$fs-xxl;
+  font-weight: v.$fw-bold;
+
+  @include m.from(v.$bp-tablet-sm) {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  color: v.$color-text-subtle;
+  font-size: v.$fs-md;
+}
