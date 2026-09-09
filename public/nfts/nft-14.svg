@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="grad-13" gradientTransform="rotate(2)">
+      <stop offset="0%" stop-color="#00C2FF" />
+      <stop offset="100%" stop-color="#7B2FF7" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#grad-13)" />
+  <polygon points="204.58718461563745,475.77370298320955 100.06910020709873,305.2569295221522 195.48191559146116,129.48322653894266 395.4128153843625,124.22629701679048 499.9308997929013,294.7430704778478 404.5180844085387,470.5167734610574" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" stroke-width="4" />
+</svg>
