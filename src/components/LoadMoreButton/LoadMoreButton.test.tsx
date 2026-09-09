@@ -6,7 +6,7 @@ describe("LoadMoreButton", () => {
   it('shows "Carregar mais" and is clickable when there is more to load', async () => {
     const user = userEvent.setup();
     const onClick = jest.fn();
-    render(<LoadMoreButton onClick={onClick} isLoading={false} hasMore />);
+    render(<LoadMoreButton onClick={onClick} isLoading={false} hasMore progress={0.5} />);
 
     const button = screen.getByRole("button", { name: "Carregar mais" });
     expect(button).toBeEnabled();
@@ -16,14 +16,19 @@ describe("LoadMoreButton", () => {
   });
 
   it("shows a loading label and disables the button while fetching the next page", () => {
-    render(<LoadMoreButton onClick={jest.fn()} isLoading hasMore />);
+    render(<LoadMoreButton onClick={jest.fn()} isLoading hasMore progress={0.5} />);
     expect(screen.getByRole("button")).toBeDisabled();
     expect(screen.getByText("Carregando...")).toBeInTheDocument();
   });
 
   it('shows "Você já viu tudo" and is disabled once every page has loaded', () => {
-    render(<LoadMoreButton onClick={jest.fn()} isLoading={false} hasMore={false} />);
+    render(<LoadMoreButton onClick={jest.fn()} isLoading={false} hasMore={false} progress={1} />);
     const button = screen.getByRole("button", { name: "Você já viu tudo" });
     expect(button).toBeDisabled();
+  });
+
+  it("renders the progress bar filled proportionally to pages loaded", () => {
+    render(<LoadMoreButton onClick={jest.fn()} isLoading={false} hasMore progress={0.25} />);
+    expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "25");
   });
 });

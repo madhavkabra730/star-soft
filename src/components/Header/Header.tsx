@@ -24,7 +24,8 @@ export function Header() {
       <header className={styles.header}>
         <div className={styles.content}>
           <Link href="/" className={styles.logo} aria-label="Página inicial">
-            <Image src="/icons/logo.svg" alt="NFTarket" width={140} height={32} priority />
+            <span className={styles.logoStar}>star</span>
+            <span className={styles.logoSoft}>soft</span>
           </Link>
 
           <button

@@ -22,7 +22,7 @@ export function ProductGrid({ initialData }: ProductGridProps) {
     return (
       <div className={styles.state} role="alert">
         <p>Não foi possível carregar os NFTs. {error instanceof Error ? error.message : ""}</p>
-        <Button variant="secondary" onClick={() => refetch()}>
+        <Button variant="neutral" onClick={() => refetch()}>
           Tentar novamente
         </Button>
       </div>
@@ -49,6 +49,9 @@ export function ProductGrid({ initialData }: ProductGridProps) {
     );
   }
 
+  const lastPageMetadata = data.pages[data.pages.length - 1].metadata;
+  const progress = lastPageMetadata.pageCount > 0 ? lastPageMetadata.page / lastPageMetadata.pageCount : 1;
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.grid}>
@@ -62,6 +65,7 @@ export function ProductGrid({ initialData }: ProductGridProps) {
           onClick={() => fetchNextPage()}
           isLoading={isFetchingNextPage}
           hasMore={Boolean(hasNextPage)}
+          progress={progress}
         />
       </div>
     </div>

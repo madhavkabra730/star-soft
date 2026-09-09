@@ -16,13 +16,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NFTarket — NFT Marketplace",
-    template: "%s | NFTarket",
+    default: "Starsoft — NFT Marketplace",
+    template: "%s | Starsoft",
   },
-  description: "Browse, collect and check out unique NFTs on NFTarket, a marketplace built with Next.js.",
+  description: "Browse, collect and check out unique NFTs on Starsoft, a marketplace built with Next.js.",
   openGraph: {
-    title: "NFTarket — NFT Marketplace",
-    description: "Browse, collect and check out unique NFTs on NFTarket.",
+    title: "Starsoft — NFT Marketplace",
+    description: "Browse, collect and check out unique NFTs on Starsoft.",
     type: "website",
   },
 };
