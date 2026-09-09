@@ -2,13 +2,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useProducts } from "./useProducts";
-import { ProductsService } from "@/lib/api";
 import type { PaginatedResponse, Product } from "@/types/product";
-
-jest.mock("@/lib/api", () => ({
-  ProductsService: { getProducts: jest.fn() },
-  DEFAULT_PAGE_SIZE: 8,
-}));
 
 function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -24,9 +18,20 @@ function pageResponse(page: number, pageCount: number): PaginatedResponse<Produc
   };
 }
 
+function jsonOk(body: unknown): Response {
+  return { ok: true, status: 200, json: async () => body } as Response;
+}
+
 describe("useProducts", () => {
+  const fetchMock = jest.fn();
+
+  beforeEach(() => {
+    fetchMock.mockReset();
+    global.fetch = fetchMock;
+  });
+
   it("starts in a loading state, then resolves the first page", async () => {
-    (ProductsService.getProducts as jest.Mock).mockResolvedValue(pageResponse(1, 2));
+    fetchMock.mockResolvedValue(jsonOk(pageResponse(1, 2)));
 
     const { result } = renderHook(() => useProducts(), { wrapper });
 
@@ -37,9 +42,9 @@ describe("useProducts", () => {
   });
 
   it("fetches and appends the next page", async () => {
-    (ProductsService.getProducts as jest.Mock)
-      .mockResolvedValueOnce(pageResponse(1, 2))
-      .mockResolvedValueOnce(pageResponse(2, 2));
+    fetchMock
+      .mockResolvedValueOnce(jsonOk(pageResponse(1, 2)))
+      .mockResolvedValueOnce(jsonOk(pageResponse(2, 2)));
 
     const { result } = renderHook(() => useProducts(), { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -51,7 +56,7 @@ describe("useProducts", () => {
   });
 
   it("seeds from initialData with no loading flash", () => {
-    (ProductsService.getProducts as jest.Mock).mockResolvedValue(pageResponse(1, 1));
+    fetchMock.mockResolvedValue(jsonOk(pageResponse(1, 1)));
     const initialData = pageResponse(1, 1);
 
     const { result } = renderHook(() => useProducts({ initialData }), { wrapper });
@@ -61,10 +66,19 @@ describe("useProducts", () => {
   });
 
   it("surfaces a fetch failure", async () => {
-    (ProductsService.getProducts as jest.Mock).mockRejectedValue(new Error("network down"));
+    fetchMock.mockResolvedValue({ ok: false, status: 500, json: async () => ({}) } as Response);
 
     const { result } = renderHook(() => useProducts(), { wrapper });
 
     await waitFor(() => expect(result.current.isError).toBe(true));
+  });
+
+  it("calls /api/products with correct page and limit params", async () => {
+    fetchMock.mockResolvedValue(jsonOk(pageResponse(1, 1)));
+
+    const { result } = renderHook(() => useProducts({ limit: 8 }), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("/api/products?page=1&limit=8"));
   });
 });

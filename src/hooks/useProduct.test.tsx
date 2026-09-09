@@ -2,12 +2,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useProduct } from "./useProduct";
-import { ProductsService } from "@/lib/api";
 import type { Product } from "@/types/product";
-
-jest.mock("@/lib/api", () => ({
-  ProductsService: { getProductById: jest.fn() },
-}));
 
 function wrapper({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -24,8 +19,15 @@ const product: Product = {
 };
 
 describe("useProduct", () => {
+  const fetchMock = jest.fn();
+
+  beforeEach(() => {
+    fetchMock.mockReset();
+    global.fetch = fetchMock;
+  });
+
   it("seeds data from initialData with no loading state", () => {
-    (ProductsService.getProductById as jest.Mock).mockResolvedValue(product);
+    fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => product } as Response);
 
     const { result } = renderHook(() => useProduct(1, { initialData: product }), { wrapper });
 
@@ -33,11 +35,13 @@ describe("useProduct", () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  it("looks the product up by id in the background", async () => {
-    (ProductsService.getProductById as jest.Mock).mockResolvedValue(product);
+  it("looks the product up via /api/products/:id in the background", async () => {
+    fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => product } as Response);
 
     renderHook(() => useProduct(1, { initialData: product }), { wrapper });
 
-    await waitFor(() => expect(ProductsService.getProductById).toHaveBeenCalledWith(1));
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("/api/products/1")),
+    );
   });
 });
